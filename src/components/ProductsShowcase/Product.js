@@ -1,8 +1,7 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Product({ product }) {
-    const history = useHistory();
     const { id, name, image, price, brief } = product;
     const formatedPrice = formatNumber(price);
 
