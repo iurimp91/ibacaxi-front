@@ -1,5 +1,4 @@
-import logo from './logo.svg';
-import './App.css';
+import SignUpPage from "./SingUpPage.js";
 
 function App() {
   return (
