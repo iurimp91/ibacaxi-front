@@ -18,6 +18,7 @@ export default function SignInPage() {
             setUser(userData);
             history.push("/");
         }
+        // eslint-disable-next-line
     }, []);
 
     function signIn(e) {

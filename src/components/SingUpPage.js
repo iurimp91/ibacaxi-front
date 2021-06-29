@@ -20,7 +20,7 @@ export default function SignUpPage() {
             setDisabled(false);
         } else {
             const toastLoadingId = toast.loading("Loading...");
-            const body = { name, email, password, confirmPassword };
+            const body = { name, email, password };
             const request = axios.post("http://localhost:4000/sign-up", body);
 
             request.then(response => {
@@ -31,13 +31,18 @@ export default function SignUpPage() {
                 setPassword("");
                 setConfirmPassword("");
                 setDisabled(false);
-                history.push("/sign-in");
+                history.push("/");
             });
 
             request.catch(error => {
                 setDisabled(false);
                 toast.dismiss(toastLoadingId);
-                toast.error("Something went wrong, please try again.");
+
+                if(error.response.status === 409) {
+                    toast.error("This email is already in use.");
+                } else {
+                    toast.error("Something went wrong, please try again.");
+                }
             });
         }
     }
@@ -53,7 +58,7 @@ export default function SignUpPage() {
                 <input disabled={disabled} type="password" placeholder="Confirm password" required onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} />
                 <button disabled={disabled} type="submit">Create Account</button>
             </Form>
-            <Link to={disabled ? "" : "/sign-in"}>Already have an account? Sign in.</Link>
+            <Link to={disabled ? "" : "/"}>Already have an account? Sign in.</Link>
         </Container>
     );
 }
