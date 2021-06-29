@@ -1,6 +1,8 @@
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Product({ product }) {
+    const history = useHistory();
     const { id, name, image, price, brief } = product;
     const formatedPrice = formatNumber(price);
 
@@ -13,17 +15,20 @@ export default function Product({ product }) {
 
     return (
         <ProductBox>
-            <img src={image} alt={name} />
-            <h3>{name}</h3>
-            <p>{brief}</p>
-            <Price>{formatedPrice}</Price>
+            <Link to={`/product/${id}`}>
+                <img src={image} alt={name} />
+                <h3>{name}</h3>
+                <p>{brief}</p>
+                <Price>R$ {formatedPrice}</Price>
+            </Link>
         </ProductBox>
     );
 }
 const ProductBox = styled.div`
+    cursor: pointer;
     position: relative;
     background-color: #cccccc;
-    margin: 5px;
+    margin: 10px;
     width: 300px;
     height: 400px;
     border: 1px solid black;
@@ -34,10 +39,14 @@ const ProductBox = styled.div`
     }
     h3 {
         font-size: 24px;
+        margin: 5px 0px;
+    }
+    a {
+        color: #000;
     }
 `;
 const Price = styled.div`
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 5px;
+    right: 5px;
 `;
