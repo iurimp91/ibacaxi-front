@@ -1,7 +1,11 @@
+import { GlobalStyle } from "../styles/GlobalStyles.js";
+import { ResetCSS } from "../styles/ResetCSS.js";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { useState } from "react";
+
 import UserContext from "../contexts/UserContext";
 import SignUpPage from "./SingUpPage";
+import SignInPage from "./SingInPage";
 import HomePage from "./HomePage/HomePage";
 
 function App() {
@@ -9,8 +13,13 @@ function App() {
 
     return (
         <BrowserRouter>
+            <ResetCSS />
+            <GlobalStyle />
             <UserContext.Provider value={{ user, setUser }}>
                 <Switch>
+                    <Route exact path="/sign-in">
+                        <SignInPage />
+                    </Route>
                     <Route exact path="/sign-up">
                         <SignUpPage />
                     </Route>

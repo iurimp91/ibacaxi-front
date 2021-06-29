@@ -1,4 +1,3 @@
-import reset from "./css/reset.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
