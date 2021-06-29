@@ -13,7 +13,7 @@ export default function SignInPage() {
     const {setUser} = useContext(UserContext);
 
     useEffect(() => {
-        if(localStorage.length !== 0) {
+        if(localStorage.user) {
             const userData = localStorage.getItem("user");
             setUser(userData);
             history.push("/");
@@ -45,7 +45,7 @@ export default function SignInPage() {
             setDisabled(false);
             toast.dismiss(toastLoadingId);
 
-            if(error.response.status === 404) {
+            if(error.response.status === 401) {
                 toast.error("Invalid email or password, please try again.");
             } else {
                 toast.error("Something went wrong, please try again.");

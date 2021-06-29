@@ -14,4 +14,8 @@ export const GlobalStyle = createGlobalStyle`
     button {
         font-family: "Roboto";
     }
+    
+    a {
+        font-family: "Roboto";
+    }
 `;
