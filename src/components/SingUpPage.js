@@ -1,7 +1,7 @@
 import { Container, Logo, Form } from "../styles/SignUpSignInStyles.js";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 export default function SignUpPage() {
@@ -15,7 +15,7 @@ export default function SignUpPage() {
     function signUp(e) {
         e.preventDefault();
         setDisabled(true);
-        if(password !== confirmPassword) {
+        if (password !== confirmPassword) {
             toast.error("Passwords don't match.");
             setDisabled(false);
         } else {
@@ -23,7 +23,7 @@ export default function SignUpPage() {
             const body = { name, email, password };
             const request = axios.post("http://localhost:4000/sign-up", body);
 
-            request.then(response => {
+            request.then((response) => {
                 toast.dismiss(toastLoadingId);
                 toast.success("Account created!");
                 setName("");
@@ -31,14 +31,14 @@ export default function SignUpPage() {
                 setPassword("");
                 setConfirmPassword("");
                 setDisabled(false);
-                history.push("/");
+                history.push("/sign-in");
             });
 
-            request.catch(error => {
+            request.catch((error) => {
                 setDisabled(false);
                 toast.dismiss(toastLoadingId);
 
-                if(error.response.status === 409) {
+                if (error.response.status === 409) {
                     toast.error("This email is already in use.");
                 } else {
                     toast.error("Something went wrong, please try again.");
@@ -46,19 +46,51 @@ export default function SignUpPage() {
             });
         }
     }
-    
-    return(
+
+    return (
         <Container>
             <Toaster />
             <Logo>iBacaxi</Logo>
             <Form disabled={disabled} onSubmit={signUp}>
-                <input disabled={disabled} type="text" placeholder="Name" required onChange={e => setName(e.target.value)} value={name} />
-                <input disabled={disabled} type="email" placeholder="Email" required onChange={e => setEmail(e.target.value)} value={email} />
-                <input disabled={disabled} type="password" placeholder="Password" required onChange={e => setPassword(e.target.value)} value={password} />
-                <input disabled={disabled} type="password" placeholder="Confirm password" required onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} />
-                <button disabled={disabled} type="submit">Create Account</button>
+                <input
+                    disabled={disabled}
+                    type="text"
+                    placeholder="Name"
+                    required
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                />
+                <input
+                    disabled={disabled}
+                    type="email"
+                    placeholder="Email"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+                <input
+                    disabled={disabled}
+                    type="password"
+                    placeholder="Password"
+                    required
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+                <input
+                    disabled={disabled}
+                    type="password"
+                    placeholder="Confirm password"
+                    required
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                />
+                <button disabled={disabled} type="submit">
+                    Create Account
+                </button>
             </Form>
-            <Link to={disabled ? "" : "/"}>Already have an account? Sign in.</Link>
+            <Link to={disabled ? "" : "/sign-in"}>
+                Already have an account? Sign in.
+            </Link>
         </Container>
     );
 }

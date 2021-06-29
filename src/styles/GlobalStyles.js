@@ -1,8 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-    body, .root {
+    body {
         font-family: "Roboto";
+        height: 100vh;
+    }
+    #root {
+        background-color: black;
+        height: 100%;
     }
 
     ::-webkit-input-placeholder, input {
@@ -17,5 +22,6 @@ export const GlobalStyle = createGlobalStyle`
     
     a {
         font-family: "Roboto";
+        text-decoration: none;
     }
 `;
