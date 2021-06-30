@@ -1,16 +1,10 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import formatNumber from "../../functions/formatNumber";
 
 export default function Product({ product }) {
     const { id, name, image, price, brief } = product;
     const formatedPrice = formatNumber(price);
-
-    function formatNumber(int) {
-        const str = String(int).padStart(3, "0");
-        const formattedNumber = `
-        ${str.slice(0, str.length - 2)},${str.slice(-2)}`;
-        return formattedNumber;
-    }
 
     return (
         <ProductBox>

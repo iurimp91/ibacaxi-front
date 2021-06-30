@@ -16,6 +16,7 @@ export const GlobalStyle = createGlobalStyle`
 
     button {
         font-family: "Roboto";
+        cursor: pointer;
     }
     
     a {
