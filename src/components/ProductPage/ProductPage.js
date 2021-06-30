@@ -13,7 +13,6 @@ export default function ProductPage() {
             setProduct(respose.data);
         });
         productRequest.catch((error) => alert(error.response.status));
-        console.log(product);
     }, [id]);
 
     return (
