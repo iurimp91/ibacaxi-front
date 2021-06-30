@@ -6,13 +6,24 @@ import ProductsShowcase from "../ProductsShowcase/ProductsShowcase";
 export default function HomePage() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [categoryQuery, setCategoryQuery] = useState("");
-    const [priceQuery, setPriceQuery] = useState("");
     const [generalQuery ,setGeneralQuery] = useState("");
 
     useEffect(() => {
        getProducts();
+       getCategories();
     }, []);
+
+    function getCategories() {
+        const categoriesRequest = axios.get("http://localhost:4000/categories");
+
+        categoriesRequest.then((response) => {
+            setCategories(response.data);
+        });
+
+        categoriesRequest.catch((error) => {
+            alert("Error!");
+        });
+    }
 
     function getProducts(generalQuery) {
         const prodRequest = axios.get(`http://localhost:4000/products?${generalQuery}`);
@@ -22,31 +33,8 @@ export default function HomePage() {
         prodRequest.catch((error) => alert("error"));
     }
 
-    useEffect(() => {
-        if (categories.length !== 0) {
-            return;
-        }
-        let previousCategory = [];
-        const existingCategories = products.filter(item => {
-            if (previousCategory.includes(item.categoryName)) {
-                return false;
-            } else {
-                previousCategory.push(item.categoryName);
-                return true;
-            }
-        });
-    
-        const categoriesNames = existingCategories.map(item => {
-            return {categoryName: item.categoryName, categoryId: item.categoryId};
-        });
-
-        setCategories(categoriesNames.sort((a,b) => {
-            return (a.categoryName > b.categoryName) ? 1 : ((b.categoryName > a.categoryName) ? -1 : 0);
-        }));
-    }, [products]);
-
-    function makeCategoryQuery(categoryId) {
-        const newQuery = `category=${categoryId}&`;
+    function makeCategoryQuery(categoryName) {
+        const newQuery = `category=${categoryName}&`;
         makeGeneralQuery(newQuery)
     }
 
@@ -88,8 +76,8 @@ export default function HomePage() {
                 <Sidebar>
                     <CategoriesList>
                         <h1>Filter by</h1>
-                        {categories.map((item, i) => 
-                            <li onClick={() => makeCategoryQuery(item.categoryId)}>{item.categoryName}</li>
+                        {categories.map((category, i) => 
+                            <li onClick={() => makeCategoryQuery(category.name)}>{category.name}</li>
                         )}
                     </CategoriesList>
                     <PriceFilter>
@@ -116,6 +104,7 @@ const Container = styled.div`
     height: 100%;
 
     .products-list {
+        height: 100%;
         margin-left: 100px;
     }
 `;
