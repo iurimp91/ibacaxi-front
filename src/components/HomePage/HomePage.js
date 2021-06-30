@@ -6,7 +6,7 @@ import ProductsShowcase from "../ProductsShowcase/ProductsShowcase";
 export default function HomePage() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    let categoryQuery = "";
+    const [categoryQuery, setCategoryQuery] = useState("");
     let priceQuery = "";
 
     useEffect(() => {
@@ -14,7 +14,8 @@ export default function HomePage() {
     }, []);
 
     function getProducts(categoryQuery, priceQuery) {
-        const prodRequest = axios.get(`http://localhost:4000/products?${categoryQuery}`);
+        console.log(categoryQuery);
+        const prodRequest = axios.get(`http://localhost:4000/products?${categoryQuery}${priceQuery}`);
         prodRequest.then((respose) => {
             setProducts(respose.data);
         });
@@ -45,13 +46,27 @@ export default function HomePage() {
     }, [products]);
 
     function makeCategoryQuery(categoryId) {
-        categoryQuery = `category=${categoryId}&`;
-        getProducts(categoryQuery);
+        let newQuery;
+        if(categoryId !== "" && categoryQuery.includes(categoryId)) {
+            newQuery = categoryQuery.replace(`category=${categoryId}&`, "");
+        } else if(categoryId !== "" && !categoryQuery.includes(categoryId)) {
+            newQuery = categoryQuery + `category=${categoryId}&`;
+        } else {
+            newQuery = "";
+        }
+        setCategoryQuery(newQuery);
+        getProducts(newQuery);
     }
+
+    console.log(categoryQuery);
 
     function makePriceQuery(price) {
         priceQuery = `price=${price}&`;
         getProducts(priceQuery);
+    }
+
+    function makeGeneralQuery() {
+
     }
     
     return (
@@ -61,6 +76,7 @@ export default function HomePage() {
                 <Sidebar>
                     <CategoriesList>
                         <h1>Filter by</h1>
+                        <li onClick={() => makeCategoryQuery("")}>Standard</li>
                         {categories.map((item, i) => 
                             <li onClick={() => makeCategoryQuery(item.categoryId)}>{item.categoryName}</li>
                         )}
