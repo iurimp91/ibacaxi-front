@@ -17,5 +17,6 @@ export const GlobalStyle = createGlobalStyle`
     
     a {
         font-family: "Roboto";
+        text-decoration: none;
     }
 `;
