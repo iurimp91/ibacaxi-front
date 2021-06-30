@@ -43,5 +43,4 @@ const Sidebar = styled.div`
     flex-direction: column;
     width: 100px;
     background-color: blue;
-    height: 100%;
 `;
