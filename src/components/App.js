@@ -7,6 +7,7 @@ import SignUpPage from "./SingUpPage.js";
 import SignInPage from "./SingInPage.js";
 import HomePage from "./HomePage/HomePage";
 import CartPage from "./CartPage.js";
+import ProductPage from "./ProductPage/ProductPage";
 
 function App() {
     const [user, setUser] = useState();
@@ -28,6 +29,9 @@ function App() {
                     </Route>
                     <Route exact path="/cart">
                         <CartPage />
+                    </Route>
+                    <Route exact path="/product/:id">
+                        <ProductPage />
                     </Route>
                 </Switch>
             </UserContext.Provider>
