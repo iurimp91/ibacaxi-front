@@ -1,8 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-    body, .root {
+    html, body, #root {
         font-family: "Roboto";
+        height: 100%;
     }
 
     ::-webkit-input-placeholder, input {
