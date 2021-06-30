@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { BsFillTrashFill } from "react-icons/bs";
 
 export default function CartProduct(props) {
     const { id, name, category, image, quantity, brief, description, price } = props.product;
     const [qty, setQty] = useState(1);
+
+    function deleteFromCart() {
+        alert("Em breve você poderá deletar do carrinho clicando aqui!");
+    }
 
     return(
         <Container>
@@ -16,7 +21,8 @@ export default function CartProduct(props) {
                     </form>
                 </DescriptionAndQuantity>
             </div>
-            <Price>R$ {(price/100).toFixed(2).replace(".",",").replace("-","")}</Price>
+            <Price>R$ {(qty*price/100).toFixed(2).replace(".",",").replace("-","")}</Price>
+            <BsFillTrashFill className="trash-icon" onClick={deleteFromCart} />
         </Container>
     );
 }
@@ -30,10 +36,20 @@ const Container = styled.li`
     background-color: #FFFFFF;
     margin-bottom: 10px;
     padding: 10px;
+    position: relative;
+    background-color: blue;
 
     .product-info {
+        width: 75%;
         height: 100%;
         display: flex;
+    }
+
+    .trash-icon {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
     }
 `;
 
@@ -45,18 +61,28 @@ const Picture = styled.img`
 `;
 
 const DescriptionAndQuantity = styled.div`
+    width: 75%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     margin-left: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: red;
 
     h1 {
         font-size: 15px;
     }
+
+    input {
+        width: 40px;
+    }
 `;
 
 const Price = styled.div`
-
+    font-size: 15px;
+    background: green;
 `;

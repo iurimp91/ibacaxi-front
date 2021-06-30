@@ -3,48 +3,48 @@ import CartProduct from "./CartProduct";
 import { Link } from "react-router-dom";
 
 export default function CartPage() {
-    const cartProductsList = [
+    const cartProducts = [
         {
             id: 1,
             name: "Product",
             category: "Smartphone",
             image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
             quantity: 10,
-            brief: "Brief Descasdasdasdasdasdsadription",
+            brief: "Brief asd asdasd",
             description:
                 "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
             price: 1999,
-        },];
-    //     {
-    //         id: 2,
-    //         category: "Headphone",
-    //         name: "Product",
-    //         image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
-    //         quantity: 3,
-    //         brief: "Brief Description",
-    //         description:
-    //             "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
-    //         price: 1000,
-    //     },
-    //     {
-    //         id: 3,
-    //         category: "Printer",
-    //         name: "Product",
-    //         image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
-    //         quantity: 4,
-    //         brief: "Brief Description",
-    //         description:
-    //             "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
-    //         price: 250,
-    //     },
-    // ];
+        },
+        {
+            id: 2,
+            category: "Headphone",
+            name: "Product",
+            image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
+            quantity: 3,
+            brief: "Brief Description",
+            description:
+                "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
+            price: 1000,
+        },
+        {
+            id: 3,
+            category: "Printer",
+            name: "Product",
+            image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
+            quantity: 4,
+            brief: "Brief Description",
+            description:
+                "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
+            price: 250,
+        },
+    ];
 
-    console.log(cartProductsList.length);
+    console.log(cartProducts.length);
 
     return(
-        <Container empty={cartProductsList.length}>
+        <Container empty={cartProducts.length}>
             {
-                cartProductsList.length === 0
+                cartProducts.length === 0
                 ? 
                     <span>
                         Your cart is empty.<br/>
@@ -53,12 +53,19 @@ export default function CartPage() {
                 : 
                     <ProductsList>
                         {
-                            cartProductsList.map((product, i) =>
+                            cartProducts.map((product, i) =>
                                 <CartProduct product={product} key={i} />
                             )
                         }
                     </ProductsList>
             }
+            <Footer>
+                <div className="total-price">
+                    <h1>TOTAL</h1>
+                    <h2>R$ {(6000000/100).toFixed(2).replace(".",",").replace("-","")}</h2>
+                </div>
+                <button>Checkout</button>
+            </Footer>
         </Container>
     );
 }
@@ -85,4 +92,21 @@ const ProductsList = styled.ul`
     display: flex;
     flex-direction: column;
     align-items: center;
+`;
+
+const Footer = styled.footer`
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: red;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+
+    h1 {
+        margin-bottom: 10px;
+    }
 `;
