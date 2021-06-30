@@ -7,15 +7,15 @@ export default function HomePage() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [categoryQuery, setCategoryQuery] = useState("");
-    let priceQuery = "";
+    const [priceQuery, setPriceQuery] = useState("");
+    const [generalQuery ,setGeneralQuery] = useState("");
 
     useEffect(() => {
        getProducts();
     }, []);
 
-    function getProducts(categoryQuery, priceQuery) {
-        console.log(categoryQuery);
-        const prodRequest = axios.get(`http://localhost:4000/products?${categoryQuery}${priceQuery}`);
+    function getProducts(generalQuery) {
+        const prodRequest = axios.get(`http://localhost:4000/products?${generalQuery}`);
         prodRequest.then((respose) => {
             setProducts(respose.data);
         });
@@ -23,12 +23,12 @@ export default function HomePage() {
     }
 
     useEffect(() => {
-        if(categories.length !== 0) {
+        if (categories.length !== 0) {
             return;
         }
         let previousCategory = [];
         const existingCategories = products.filter(item => {
-            if(previousCategory.includes(item.categoryName)) {
+            if (previousCategory.includes(item.categoryName)) {
                 return false;
             } else {
                 previousCategory.push(item.categoryName);
@@ -46,27 +46,39 @@ export default function HomePage() {
     }, [products]);
 
     function makeCategoryQuery(categoryId) {
-        let newQuery;
-        if(categoryId !== "" && categoryQuery.includes(categoryId)) {
-            newQuery = categoryQuery.replace(`category=${categoryId}&`, "");
-        } else if(categoryId !== "" && !categoryQuery.includes(categoryId)) {
-            newQuery = categoryQuery + `category=${categoryId}&`;
-        } else {
-            newQuery = "";
-        }
-        setCategoryQuery(newQuery);
-        getProducts(newQuery);
+        const newQuery = `category=${categoryId}&`;
+        makeGeneralQuery(newQuery)
     }
-
-    console.log(categoryQuery);
 
     function makePriceQuery(price) {
-        priceQuery = `price=${price}&`;
-        getProducts(priceQuery);
+        const newQuery = `price=${price}&`;
+        makeGeneralQuery(newQuery);
     }
 
-    function makeGeneralQuery() {
+    function makeGeneralQuery(newQuery) {
+        let newGeneralQuery;
+        if (newQuery.includes("category")) {
+            if (generalQuery.includes(newQuery)) {
+                newGeneralQuery = generalQuery.replace(`${newQuery}`, "");
+            } else if (newQuery !== "category=&" && !generalQuery.includes(newQuery)) {
+                newGeneralQuery = generalQuery + `${newQuery}`;
+            } else {
+                newGeneralQuery = "";
+            }
+        } else {
+            if (generalQuery.includes(newQuery)) {
+                newGeneralQuery = generalQuery.replace(`${newQuery}`, "");
+            } else if (!generalQuery.includes("price")) {
+                newGeneralQuery = generalQuery + `${newQuery}`;
+            } else if (!generalQuery.includes(newQuery) && generalQuery.includes("higher")) {
+                newGeneralQuery = generalQuery.replace("higher", "lower");
+            } else if (!generalQuery.includes(newQuery) && generalQuery.includes("lower")) {
+                newGeneralQuery = generalQuery.replace("lower", "higher");
+            }
+        }
 
+        setGeneralQuery(newGeneralQuery);
+        getProducts(newGeneralQuery);
     }
     
     return (
@@ -76,14 +88,12 @@ export default function HomePage() {
                 <Sidebar>
                     <CategoriesList>
                         <h1>Filter by</h1>
-                        <li onClick={() => makeCategoryQuery("")}>Standard</li>
                         {categories.map((item, i) => 
                             <li onClick={() => makeCategoryQuery(item.categoryId)}>{item.categoryName}</li>
                         )}
                     </CategoriesList>
                     <PriceFilter>
                         <h1>Order by</h1>
-                        <li onClick={() => makePriceQuery("")}>Standard</li>
                         <li onClick={() => makePriceQuery("higher")}>Higher price</li>
                         <li onClick={() => makePriceQuery("lower")}>Lower price</li>
                     </PriceFilter>       

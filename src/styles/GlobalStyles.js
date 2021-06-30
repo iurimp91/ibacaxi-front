@@ -3,7 +3,9 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
     body {
         font-family: "Roboto";
+        height: 100%;
     }
+    
     #root {
         background-color: black;
         height: 100%;
