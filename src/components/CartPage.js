@@ -1,45 +1,41 @@
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
 
 export default function CartPage() {
-    const cartProducts = [
-        {
-            id: 1,
-            name: "Product",
-            category: "Smartphone",
-            image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
-            quantity: 10,
-            brief: "Brief asd asdasd",
-            description:
-                "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
-            price: 1999,
-        },
-        {
-            id: 2,
-            category: "Headphone",
-            name: "Product",
-            image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
-            quantity: 3,
-            brief: "Brief Description",
-            description:
-                "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
-            price: 1000,
-        },
-        {
-            id: 3,
-            category: "Printer",
-            name: "Product",
-            image: "https://fruitznveggies.com/wp-content/uploads/2020/09/Pear-1pc-100-Organic.jpg",
-            quantity: 4,
-            brief: "Brief Description",
-            description:
-                "Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto. Esse é um produto, ele está presente na loja. Ele tem uma descrição. Compre o produto.",
-            price: 250,
-        },
-    ];
+    const { user } = useContext(UserContext);
+    const [cartProducts, setCartProducts] = useState([]);
+    const [totalPrice, setTotalPrice] = useState();
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    const [quantity, setQuantity] = useState();
 
-    console.log(cartProducts.length);
+    useEffect(() => {
+        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
+
+        const cartRequest = axios.get("http://localhost:4000/cart", config);
+
+        cartRequest.then((response) => {
+            setCartProducts(response.data);
+        });
+
+        cartRequest.catch((error) => {
+            alert("Error!");
+        });
+    }, []);
+
+    console.log(cartProducts);
+
+    useEffect(() => {
+        let total = 0;
+        cartProducts?.forEach((item) => {
+            total += item.price * item.quantity;
+        });
+        setTotalPrice(total);
+        console.log(total);
+    }, [cartProducts]);
 
     return(
         <Container empty={cartProducts.length}>
@@ -62,7 +58,7 @@ export default function CartPage() {
             <Footer>
                 <div className="total-price">
                     <h1>TOTAL</h1>
-                    <h2>R$ {(6000000/100).toFixed(2).replace(".",",").replace("-","")}</h2>
+                    <h2>R$ {(totalPrice/100).toFixed(2).replace(".",",").replace("-","")}</h2>
                 </div>
                 <button>Checkout</button>
             </Footer>

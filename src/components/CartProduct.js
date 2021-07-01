@@ -1,13 +1,37 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
 
 export default function CartProduct(props) {
-    const { id, name, category, image, quantity, brief, description, price } = props.product;
-    const [qty, setQty] = useState(1);
+    console.log(props);
+    const { productId, productName, image, brief, price, inventory } = props.product;
+    const [newQuantity, setNewQuantity] = useState(props.product.quantity);
+    const { user } = useContext(UserContext);
+    const localUser = JSON.parse(localStorage.getItem("user"));
+
+    console.log(props)
 
     function deleteFromCart() {
         alert("Em breve você poderá deletar do carrinho clicando aqui!");
+    }
+
+    function updateOrders(e) {
+        setNewQuantity(e.target.value);
+        console.log(e.target.value);
+
+        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
+        const body = { productId, quantity: parseInt(e.target.value) };
+        const updateQuantityRequest = axios.put("http://localhost:4000/cart", body, config);
+
+        updateQuantityRequest.then((response) => {
+            alert("Ok!");
+        });
+
+        updateQuantityRequest.catch((error) => {
+            alert("Error");
+        });
     }
 
     return(
@@ -15,13 +39,13 @@ export default function CartProduct(props) {
             <div className="product-info">
                 <Picture src={image} alt={brief} />
                 <DescriptionAndQuantity>
-                    <h1>{brief}</h1>
+                    <h1>{productName}</h1>
                     <form onSubmit={e => e.preventDefault()}>
-                        <input type="number" id="number" min="1" max={quantity} onChange={e => setQty(e.target.value)} value={qty} />
+                        <input type="number" id="number" min="1" max={inventory} onChange={e => updateOrders(e)} value={newQuantity} />
                     </form>
                 </DescriptionAndQuantity>
             </div>
-            <Price>R$ {(qty*price/100).toFixed(2).replace(".",",").replace("-","")}</Price>
+            <Price>R$ {(newQuantity*price/100).toFixed(2).replace(".",",").replace("-","")}</Price>
             <BsFillTrashFill className="trash-icon" onClick={deleteFromCart} />
         </Container>
     );
