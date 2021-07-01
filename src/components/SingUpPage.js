@@ -1,4 +1,4 @@
-import { Container, Logo, Form } from "../styles/SignUpSignInStyles.js";
+import { Container, Form } from "../styles/SignUpSignInStyles.js";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -50,7 +50,6 @@ export default function SignUpPage() {
     return (
         <Container>
             <Toaster />
-            <Logo>iBacaxi</Logo>
             <Form disabled={disabled} onSubmit={signUp}>
                 <input
                     disabled={disabled}

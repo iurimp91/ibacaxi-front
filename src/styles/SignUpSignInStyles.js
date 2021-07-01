@@ -1,35 +1,22 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background-color: #E1E5EA;
+    height: 100%;
+    background-color: #e1e5ea;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    height: calc(100% - 90px);
     a {
         font-size: 15px;
         font-weight: 700;
         margin-top: 20px;
-        color: #DA7F8F;
+        color: #da7f8f;
 
         @media (min-width: 470px) {
-            font-size: 20px; 
+            font-size: 20px;
         }
-    }
-`;
-
-export const Logo = styled.div`
-    color: #DA7F8F;
-    font-size: 40px;
-    font-family: "Comfortaa";
-    margin-bottom: 24px;
-    font-weight: 700;
-
-    @media (min-width: 470px) {
-        font-size: 50px; 
     }
 `;
 
@@ -39,7 +26,7 @@ export const Form = styled.form`
 
     @media (min-width: 470px) {
         display: flex;
-        flex-direction: column;    
+        flex-direction: column;
     }
 
     input {
@@ -48,9 +35,10 @@ export const Form = styled.form`
         border-radius: 5px;
         font-size: 20px;
         padding-left: 15px;
-        background-color: ${props => props.disabled ? "#DCDCDC" : "#FFFFFF"};
+        background-color: ${(props) =>
+            props.disabled ? "#DCDCDC" : "#FFFFFF"};
         margin-bottom: 13px;
-        border: 1px solid #DA7F8F;
+        border: 1px solid #da7f8f;
 
         @media (min-width: 470px) {
             width: 430px;
@@ -64,9 +52,9 @@ export const Form = styled.form`
         height: 50px;
         border: none;
         border-radius: 5px;
-        background-color: #DA7F8F;
-        opacity: ${props => props.disabled ? "0.7" : "1"};
-        color: #FFFFFF;
+        background-color: #da7f8f;
+        opacity: ${(props) => (props.disabled ? "0.7" : "1")};
+        color: #ffffff;
         font-size: 20px;
 
         @media (min-width: 470px) {

@@ -82,13 +82,13 @@ export default function HomePage() {
 
     return (
         <Home>
-            <h1>Essa é a linda página principal.</h1>
             <Container>
                 <Sidebar>
                     <CategoriesList>
                         <h1>Filter by</h1>
-                        {categories.map((category, i) => (
+                        {categories.map((category) => (
                             <li
+                                key={category.id}
                                 onClick={() => makeCategoryQuery(category.name)}
                             >
                                 {category.name}
@@ -105,7 +105,7 @@ export default function HomePage() {
                         </li>
                     </PriceFilter>
                 </Sidebar>
-                <div className="products-list">
+                <div>
                     <ProductsShowcase products={products} />
                 </div>
             </Container>
@@ -114,30 +114,23 @@ export default function HomePage() {
 }
 
 const Home = styled.div`
-    background-color: #e1e5ea;
-    height: 100%;
+    max-width: 1500px;
+    margin: 0px auto;
+    h1 {
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 30px;
+    }
 `;
 
 const Container = styled.div`
     display: flex;
-    height: 100%;
-
-    .products-list {
-        height: 100%;
-        margin-left: 100px;
-    }
 `;
 
 const Sidebar = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100px;
-    background-color: blue;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin-top: 26px;
+    min-width: 150px;
 `;
 
 const CategoriesList = styled.ul`
