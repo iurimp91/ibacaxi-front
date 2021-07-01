@@ -2,11 +2,11 @@ import { GlobalStyle } from "../styles/GlobalStyles.js";
 import { ResetCSS } from "../styles/ResetCSS.js";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { useState } from "react";
-
-import UserContext from "../contexts/UserContext";
-import SignUpPage from "./SingUpPage";
-import SignInPage from "./SingInPage";
+import UserContext from "../contexts/UserContext.js";
+import SignUpPage from "./SingUpPage.js";
+import SignInPage from "./SingInPage.js";
 import HomePage from "./HomePage/HomePage";
+import CartPage from "./CartPage.js";
 import ProductPage from "./ProductPage/ProductPage";
 import Header from "./Header/Header";
 
@@ -28,6 +28,9 @@ function App() {
                     </Route>
                     <Route exact path="/">
                         <HomePage />
+                    </Route>
+                    <Route exact path="/cart">
+                        <CartPage />
                     </Route>
                     <Route exact path="/product/:id">
                         <ProductPage />

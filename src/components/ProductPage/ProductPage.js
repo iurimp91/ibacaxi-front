@@ -1,12 +1,19 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 import formatNumber from "../../functions/formatNumber";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function ProductPage() {
     const [product, setProduct] = useState(false);
     let { id } = useParams();
+    const [orderQuantity, setOrderQuantity] = useState(1);
+    const { user } = useContext(UserContext);
+    const history = useHistory();
+    const localUser = JSON.parse(localStorage.getItem("user"));
+
     useEffect(() => {
         const productRequest = axios.get(`http://localhost:4000/product/${id}`);
         productRequest.then((respose) => {
@@ -15,16 +22,47 @@ export default function ProductPage() {
         productRequest.catch((error) => alert(error.response.status));
     }, [id]);
 
+    function addToCart() {
+        if (!user && !localUser) {
+            toast("Please, log in before adding to cart.");
+            localStorage.setItem("lastPage", `/product/${id}`);
+            return history.push("/sign-in");
+        }
+        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
+        const body = {
+            userId: localUser.id || user.id,
+            productId: product.id,
+            quantity: parseInt(orderQuantity),
+        }
+        const addCartRequest = axios.post("http://localhost:4000/cart", body, config);
+
+        addCartRequest.then((response) => {
+            toast.success("Added to cart!");
+        });
+
+        addCartRequest.catch((error) => {
+            if (error.response.status === 403) {
+                toast.error("Sold out.")
+            } else {
+                alert("error");
+            }
+        });
+    }
+
     return (
         <Container>
+            <Toaster />
             <ProductImage>
                 <img src={product.image} alt={product.name} />
             </ProductImage>
             <ProductContainer>
                 <Title>{product.name}</Title>
                 <Line />
-                <Price>R$ {formatNumber(product.price)}</Price>
-                <button className="cart">Add to cart</button>
+                <div className="price-quantity">
+                    <Price>R$ {formatNumber(product.price)}</Price>
+                    <input type="number" min="1" max={product.quantity} onChange={e => setOrderQuantity(e.target.value)} value={orderQuantity} />
+                </div>
+                <button className="cart" onClick={addToCart}>Add to cart</button>
                 <button className="buy">Buy now</button>
                 <Description>{product.description}</Description>
             </ProductContainer>
@@ -80,6 +118,10 @@ const ProductContainer = styled.div`
             background-color: white;
             color: #da7f8f;
         }
+    }
+    .price-quantity {
+        display: flex;
+        justify-content: space-between;
     }
 `;
 const ProductImage = styled.div`

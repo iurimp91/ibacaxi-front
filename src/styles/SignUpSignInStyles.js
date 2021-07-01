@@ -9,7 +9,6 @@ export const Container = styled.div`
     align-items: center;
     height: calc(100% - 90px);
     a {
-        text-decoration: none;
         font-size: 15px;
         font-weight: 700;
         margin-top: 20px;

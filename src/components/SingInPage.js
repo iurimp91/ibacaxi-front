@@ -38,7 +38,13 @@ export default function SignInPage() {
             const stringUserData = JSON.stringify(response.data);
             localStorage.setItem("user", stringUserData);
             setDisabled(false);
-            history.push("/");
+            if (!localStorage.getItem("lastPage")) {
+                history.push("/");
+            } else {
+                const lastPage = localStorage.getItem("lastPage");
+                localStorage.removeItem("lastPage");
+                history.push(lastPage);
+            }
         });
 
         request.catch((error) => {
