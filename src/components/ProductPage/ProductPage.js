@@ -22,8 +22,6 @@ export default function ProductPage() {
         productRequest.catch((error) => alert(error.response.status));
     }, [id]);
 
-    console.log(product);
-
     function addToCart() {
         if (!user && !localUser) {
             toast("Please, log in before adding to cart.");
