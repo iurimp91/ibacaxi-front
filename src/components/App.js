@@ -8,6 +8,7 @@ import SignUpPage from "./SingUpPage";
 import SignInPage from "./SingInPage";
 import HomePage from "./HomePage/HomePage";
 import ProductPage from "./ProductPage/ProductPage";
+import Header from "./Header/Header";
 
 function App() {
     const [user, setUser] = useState();
@@ -17,6 +18,7 @@ function App() {
             <ResetCSS />
             <GlobalStyle />
             <UserContext.Provider value={{ user, setUser }}>
+                <Header />
                 <Switch>
                     <Route exact path="/sign-in">
                         <SignInPage />

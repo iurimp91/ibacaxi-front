@@ -34,7 +34,6 @@ export default function ProductPage() {
 const Container = styled.div`
     color: #3a4242;
     background-color: #e1e5ea;
-    height: 100%;
     max-width: 1100px;
     margin: 0 auto;
     display: flex;

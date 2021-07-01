@@ -4,6 +4,7 @@ export const GlobalStyle = createGlobalStyle`
     html, body, #root {
         font-family: "Roboto";
         height: 100%;
+        background-color: #e1e5ea;
     }
 
     ::-webkit-input-placeholder, input {
