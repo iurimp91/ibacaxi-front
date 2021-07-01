@@ -13,6 +13,7 @@ export default function CartPage() {
 
     useEffect(() => {
         getCartProducts();
+        // eslint-disable-next-line
     }, []);
 
     function getCartProducts() {
