@@ -13,7 +13,7 @@ export default function ProductsShowcase({ products }) {
 
 const Showcase = styled.div`
     display: flex;
+    justify-content: space-evenly;
     width: 100%;
     flex-wrap: wrap;
-    height: 100%;
 `;
