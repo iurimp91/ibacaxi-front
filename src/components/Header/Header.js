@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/img/logo.png";
 import { IoPersonCircleSharp, IoCartSharp } from "react-icons/io5";
+import SearchBar from "./SearchBar";
 
 export default function Header() {
+    
+
     return (
         <SafeMargin>
             <TopBar>
@@ -11,6 +14,9 @@ export default function Header() {
                     <img src={logo} alt="iBacaxi Logo" height="50px" />
                     <span>iBacaxi</span>
                 </Title>
+                <SearchBar>
+                    
+                </SearchBar>
                 <Buttons>
                     <IoPersonCircleSharp />
                     <IoCartSharp />
@@ -48,8 +54,13 @@ const Title = styled(Link)`
     font-weight: 700;
     display: flex;
     align-items: center;
+
     span {
         margin-top: 8px;
+
+        @media (max-width: 614px) {
+            display: none;
+        }
     }
 `;
 const Buttons = styled.div`
