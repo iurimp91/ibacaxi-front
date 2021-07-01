@@ -30,12 +30,11 @@ export default function ProductPage() {
             localStorage.setItem("lastPage", `/product/${id}`);
             return history.push("/sign-in");
         }
-        const config = { headers: { Authorization: `Bearer ${user.token || localUser.token}` } }
+        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
         const body = {
-            userId: user.id || localUser.id,
+            userId: localUser.id || user.id,
             productId: product.id,
             quantity: parseInt(orderQuantity),
-            closed: false,
         }
         const addCartRequest = axios.post("http://localhost:4000/cart", body, config);
 

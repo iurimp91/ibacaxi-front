@@ -10,9 +10,12 @@ export default function CartPage() {
     const [cartProducts, setCartProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState();
     const localUser = JSON.parse(localStorage.getItem("user"));
-    const [quantity, setQuantity] = useState();
 
     useEffect(() => {
+        getCartProducts();
+    }, []);
+
+    function getCartProducts() {
         const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
 
         const cartRequest = axios.get("http://localhost:4000/cart", config);
@@ -24,9 +27,7 @@ export default function CartPage() {
         cartRequest.catch((error) => {
             alert("Error!");
         });
-    }, []);
-
-    console.log(cartProducts);
+    }
 
     useEffect(() => {
         let total = 0;
@@ -34,7 +35,6 @@ export default function CartPage() {
             total += item.price * item.quantity;
         });
         setTotalPrice(total);
-        console.log(total);
     }, [cartProducts]);
 
     return(
@@ -50,7 +50,11 @@ export default function CartPage() {
                     <ProductsList>
                         {
                             cartProducts.map((product, i) =>
-                                <CartProduct product={product} key={i} />
+                                <CartProduct
+                                    product={product}
+                                    getCartProducts={getCartProducts}
+                                    key={i}
+                                />
                             )
                         }
                     </ProductsList>

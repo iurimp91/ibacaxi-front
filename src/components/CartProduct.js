@@ -3,39 +3,48 @@ import { useContext, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function CartProduct(props) {
-    console.log(props);
-    const { productId, productName, image, brief, price, inventory } = props.product;
+    const { id, productId, productName, image, brief, price, inventory } = props.product;
     const [newQuantity, setNewQuantity] = useState(props.product.quantity);
     const { user } = useContext(UserContext);
     const localUser = JSON.parse(localStorage.getItem("user"));
-
-    console.log(props)
+    const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
+    const getCartProducts = props.getCartProducts;
 
     function deleteFromCart() {
-        alert("Em breve você poderá deletar do carrinho clicando aqui!");
+        const deleteRequest = axios.delete(`http://localhost:4000/cart?id=${id}`, config);
+
+        deleteRequest.then((response) => {
+            toast.success("Deleted!");
+            getCartProducts();
+        });
+
+        deleteRequest.catch((error) => {
+            toast.error("Your request failed, please try again.");
+        });
     }
 
     function updateOrders(e) {
         setNewQuantity(e.target.value);
-        console.log(e.target.value);
-
-        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
+        
         const body = { productId, quantity: parseInt(e.target.value) };
         const updateQuantityRequest = axios.put("http://localhost:4000/cart", body, config);
 
         updateQuantityRequest.then((response) => {
-            alert("Ok!");
+            toast.success("Quantity updated!");
+            getCartProducts();
         });
 
         updateQuantityRequest.catch((error) => {
-            alert("Error");
+            toast.error("Your request failed, please try again.");
         });
     }
 
     return(
         <Container>
+            <Toaster />
             <div className="product-info">
                 <Picture src={image} alt={brief} />
                 <DescriptionAndQuantity>
