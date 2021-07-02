@@ -59,6 +59,10 @@ export default function Header() {
 const SafeMargin = styled.div`
     height: 90px;
     background-color: transparent;
+
+    @media (max-width: 670px) {
+        height: 140px;
+    }
 `;
 
 const TopBar = styled.div`
@@ -75,11 +79,15 @@ const TopBar = styled.div`
     left: 0;
     right: 0;
     z-index: 1;
+
+    @media (max-width: 670px) {
+        box-shadow: none;
+    }
 `;
 
 const Title = styled(Link)`
     color: #da7f8f;
-    font-size: 40px;
+    font-size: 35px;
     font-family: "Comfortaa";
     font-weight: 700;
     display: flex;
@@ -87,10 +95,7 @@ const Title = styled(Link)`
 
     span {
         margin-top: 8px;
-
-        @media (max-width: 614px) {
-            display: none;
-        }
+        margin-left: 5px;
     }
 `;
 const Buttons = styled.div`

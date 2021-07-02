@@ -54,9 +54,15 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: fixed;
+    position: absolute;
     top: 20px;
-    left: 40vw;
+    left: calc(50% - 150px);
+
+    @media (max-width: 670px) {
+        width: 100%;
+        top: 80px;
+        left: 0;
+    }
 
     input {
         width: 300px;
@@ -65,6 +71,12 @@ const Container = styled.div`
         border-radius: 5px;
         border: none;
         font-size: 15px;
+
+        @media (max-width: 670px) {
+            width: 100%;
+            border-radius: 0;
+            box-shadow: 0 4px 4px 0 rgba(218, 127, 143, 0.25); 
+        }
     }
 
     svg {
