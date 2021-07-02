@@ -25,7 +25,7 @@ export default function Header({ user, setUser }) {
         };
 
         const request = axios.post(
-            "${process.env.REACT_APP_API_URL}/sign-out",
+            `${process.env.REACT_APP_API_URL}/sign-out`,
             [],
             config
         );
