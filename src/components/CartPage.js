@@ -104,6 +104,11 @@ const Container = styled.div`
             width: 50%;
         }
     }
+
+    a {
+        font-weight: 700;
+        color: #da7f8f;
+    }
 `;
 
 const ProductsList = styled.ul`
