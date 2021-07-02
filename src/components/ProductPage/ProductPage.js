@@ -23,11 +23,10 @@ export default function ProductPage() {
         productRequest.catch((error) => alert(error.response.status));
     }, [id]);
 
-    function addToCart() {
+    function addToCart(goCart) {
         if (!user && !localUser) {
             toast("Please, log in before adding to cart.");
-            localStorage.setItem("lastPage", `/product/${id}`);
-            return history.push("/sign-in");
+            return history.push(`/sign-in?next=/product/${id}`);
         }
         const config = {
             headers: {
@@ -47,13 +46,16 @@ export default function ProductPage() {
 
         addCartRequest.then((response) => {
             toast.success("Added to cart!");
+            if (goCart === true) {
+                return history.push("/cart");
+            }
         });
 
         addCartRequest.catch((error) => {
             if (error.response.status === 403) {
                 toast.error("Sold out.");
             } else {
-                alert("error");
+                toast.error("Error");
             }
         });
     }
@@ -81,6 +83,7 @@ export default function ProductPage() {
                     Add to cart
                 </button>
                 <button className="buy">Buy now</button>
+
                 <Description>{product.description}</Description>
             </ProductContainer>
         </Container>

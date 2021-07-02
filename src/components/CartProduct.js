@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
@@ -11,11 +11,13 @@ export default function CartProduct(props) {
         props.product;
     const [newQuantity, setNewQuantity] = useState(props.product.quantity);
     const { user } = useContext(UserContext);
-    const localUser = JSON.parse(localStorage.getItem("user"));
-    const config = {
-        headers: { Authorization: `Bearer ${localUser.token || user.token}` },
-    };
     const getCartProducts = props.getCartProducts;
+    let config;
+    useEffect(() => {
+        if (user) {
+            config = { headers: { Authorization: `Bearer ${user.token}` } };
+        }
+    }, [user]);
 
     function deleteFromCart() {
         const deleteRequest = axios.delete(
@@ -63,7 +65,6 @@ export default function CartProduct(props) {
                     <form onSubmit={(e) => e.preventDefault()}>
                         <input
                             type="number"
-                            id="number"
                             min="1"
                             max={inventory}
                             onChange={(e) => updateOrders(e)}
