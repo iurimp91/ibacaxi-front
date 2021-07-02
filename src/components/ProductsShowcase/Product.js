@@ -12,7 +12,7 @@ export default function Product({ product }) {
                 <img src={image} alt={name} />
                 <h3>{name}</h3>
                 <p>{brief}</p>
-                <Price>
+                <Price quantity={quantity}>
                     {
                         quantity !== 0
                         ? ""
@@ -60,7 +60,7 @@ const Price = styled.div`
     bottom: 5px;
     right: 5px;
     display: flex;
-    justify-content: space-between;
+    justify-content: ${props => props.quantity === 0 ? "space-between" : "flex-end"};
     align-items: center;
     font-size: 20px;
 

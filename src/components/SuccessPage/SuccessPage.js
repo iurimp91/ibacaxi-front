@@ -10,7 +10,6 @@ export default function SuccessPage() {
     const history = useHistory();
     const [orderInfo, setOrderInfo] = useState({});
     const { id } = useParams();
-    console.log(orderInfo);
     const { date, email, orderId, total } = orderInfo;
     useEffect(() => {
         if (!localStorage.user) {

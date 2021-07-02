@@ -66,7 +66,7 @@ export default function CartPage() {
                     <h1>TOTAL</h1>
                     <h2>R$ {formatNumber(totalPrice)}</h2>
                 </div>
-                <button>Checkout</button>
+                <button onClick={() => history.push("/checkout")}>Checkout</button>
             </Footer>
         </Container>
     );
@@ -111,6 +111,11 @@ const ProductsList = styled.ul`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 80px;
+
+    @media (min-width: 670px) {
+        padding-bottom: 10px;
+    }
 `;
 
 const Footer = styled.footer`

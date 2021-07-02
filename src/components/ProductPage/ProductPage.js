@@ -21,10 +21,7 @@ export default function ProductPage() {
         productRequest.catch((error) => alert(error.response.status));
     }, [id]);
 
-    console.log(product);
-
     function addToCart(goCart) {
-        console.log(user);
         if (!user) {
             toast("Please, log in before adding to cart.");
             return history.push(`/sign-in?next=/product/${id}`);
