@@ -1,25 +1,55 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/img/logo.png";
 import { IoPersonCircleSharp, IoCartSharp } from "react-icons/io5";
 import SearchBar from "./SearchBar";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+import { RiContactsBookLine, RiLogoutBoxFill } from "react-icons/ri";
+import toast, { Toaster } from 'react-hot-toast';
+import axios from "axios";
 
 export default function Header() {
+    const history = useHistory();
+    const { user } = useContext(UserContext);
+    const localUser = JSON.parse(localStorage.getItem("user"));
     
+    function signOut() {
+        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } };
+
+        const request = axios.post("http://localhost:4000/sign-out", [] ,config);
+
+        request.then((response) => {
+            localStorage.removeItem("user");
+            toast.success("Logged out!");
+            history.push("/sign-in");
+        });
+
+        request.catch((error) => {
+            toast.error("Your request failed, please try again.");
+        });
+    }
 
     return (
         <SafeMargin>
+            <Toaster />
             <TopBar>
                 <Title to={"/"}>
                     <img src={logo} alt="iBacaxi Logo" height="50px" />
                     <span>iBacaxi</span>
                 </Title>
-                <SearchBar>
-                    
-                </SearchBar>
+                <SearchBar />
                 <Buttons>
-                    <IoPersonCircleSharp />
-                    <IoCartSharp />
+                    {
+                        (localUser || user)
+                        ? 
+                            <>
+                                <RiLogoutBoxFill onClick={signOut} />
+                                <span>Hello,<br/><strong>{localUser?.name}</strong></span>
+                            </>
+                        : <IoPersonCircleSharp onClick={() => history.push("/sign-in")} />
+                    }
+                    <IoCartSharp onClick={() => history.push("/cart")} />
                 </Buttons>
             </TopBar>
         </SafeMargin>
@@ -69,4 +99,13 @@ const Buttons = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    span {
+        font-size: 15px;
+        margin-right: 10px;
+    }
+
+    svg {
+        cursor: pointer;
+    }
 `;

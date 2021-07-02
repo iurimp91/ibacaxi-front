@@ -12,7 +12,6 @@ export default function SearchBar() {
 
     function getProducts(e) {
         setProductName(e.target.value);
-        console.log(e.target.value);
 
         const request = axios.get(`
             http://localhost:4000/search?product=${e.target.value}

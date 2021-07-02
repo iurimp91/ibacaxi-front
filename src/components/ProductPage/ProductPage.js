@@ -22,7 +22,7 @@ export default function ProductPage() {
         productRequest.catch((error) => alert(error.response.status));
     }, [id]);
 
-    function addToCart() {
+    function addToCart(goCart) {
         if (!user && !localUser) {
             toast("Please, log in before adding to cart.");
             localStorage.setItem("lastPage", `/product/${id}`);
@@ -38,13 +38,16 @@ export default function ProductPage() {
 
         addCartRequest.then((response) => {
             toast.success("Added to cart!");
+            if (goCart === true) {
+                return history.push("/cart");
+            }
         });
 
         addCartRequest.catch((error) => {
             if (error.response.status === 403) {
                 toast.error("Sold out.")
             } else {
-                alert("error");
+                toast.error("Error");
             }
         });
     }
@@ -63,7 +66,7 @@ export default function ProductPage() {
                     <input type="number" min="1" max={product.quantity} onChange={e => setOrderQuantity(e.target.value)} value={orderQuantity} />
                 </div>
                 <button className="cart" onClick={addToCart}>Add to cart</button>
-                <button className="buy">Buy now</button>
+                <button className="buy" onClick={() => addToCart(true)}>Buy now</button>
                 <Description>{product.description}</Description>
             </ProductContainer>
         </Container>

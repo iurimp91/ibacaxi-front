@@ -15,7 +15,7 @@ export default function DropdownMenu(props) {
             <Container>
                 {productsList.map((product) => 
                     <Link key={product.id} to={`/product/${product.id}`} onClick={closeDropdownMenu}>
-                        <img src={product.image} />
+                        <img src={product.image} alt={product.brief} />
                         <h1>{product.name}</h1>
                     </Link>
                 )}

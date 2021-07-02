@@ -18,7 +18,6 @@ function App() {
             <ResetCSS />
             <GlobalStyle />
             <UserContext.Provider value={{ user, setUser }}>
-                <Header />
                 <Switch>
                     <Route exact path="/sign-in">
                         <SignInPage />
@@ -27,12 +26,15 @@ function App() {
                         <SignUpPage />
                     </Route>
                     <Route exact path="/">
+                        <Header />
                         <HomePage />
                     </Route>
                     <Route exact path="/cart">
+                        <Header />
                         <CartPage />
                     </Route>
                     <Route exact path="/product/:id">
+                        <Header />
                         <ProductPage />
                     </Route>
                 </Switch>
