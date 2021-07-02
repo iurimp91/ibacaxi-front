@@ -49,7 +49,6 @@ export default function CheckoutForm({ totalPrice }) {
         );
 
         orderRequest.then((response) => {
-            console.log(response.data.order);
             history.push(`/success/${response.data.order}`);
         });
 

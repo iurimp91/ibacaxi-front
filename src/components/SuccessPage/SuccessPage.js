@@ -9,7 +9,6 @@ export default function SuccessPage() {
     const history = useHistory();
     const [orderInfo, setOrderInfo] = useState({});
     const { id } = useParams();
-    console.log(orderInfo);
     const { date, email, orderId } = orderInfo;
     useEffect(() => {
         if (!localStorage.user) {
@@ -58,6 +57,7 @@ export default function SuccessPage() {
     );
 }
 const Container = styled.div`
+    height: 100%;
     padding: 20px 20px;
     color: #3a4242;
     background-color: #e1e5ea;
@@ -68,6 +68,7 @@ const Container = styled.div`
     align-items: center;
     flex-direction: column;
     font-size: 20px;
+    text-align: center;
     & > * {
         margin-bottom: 10px;
     }

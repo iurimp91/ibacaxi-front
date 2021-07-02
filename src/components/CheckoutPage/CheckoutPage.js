@@ -58,7 +58,7 @@ export default function CheckoutPage() {
     );
 }
 const Container = styled.div`
-    padding: 20px 20px;
+    padding: 100px 20px 0 20px;
     color: #3a4242;
     background-color: #e1e5ea;
     max-width: 1100px;
@@ -66,6 +66,11 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 20px;
+
+    @media (max-width: 670px) {
+        padding-top: 140px;
+    }
+
     & > * {
         margin-bottom: 10px;
     }

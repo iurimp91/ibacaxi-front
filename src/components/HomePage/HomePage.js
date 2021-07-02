@@ -160,7 +160,12 @@ export default function HomePage() {
 const Home = styled.div`
     max-width: 1500px;
     margin: 0px auto;
-    padding: 0px 20px;
+    padding: 100px 20px 0 20px;
+
+    @media (max-width: 670px) {
+        padding-top: 130px;
+    }
+
     h1 {
         font-size: 20px;
         font-weight: bold;
@@ -170,12 +175,22 @@ const Home = styled.div`
 
 const Container = styled.div`
     display: flex;
+
+    @media (max-width: 670px) {
+        flex-direction: column;
+    }
 `;
 
 const Sidebar = styled.div`
     display: flex;
     flex-direction: column;
     min-width: 150px;
+
+    @media (max-width: 670px) {
+        flex-direction: initial;
+        align-items: center;
+        justify-content: space-around;
+    }
 `;
 
 const CategoriesList = styled.ul`
@@ -190,6 +205,11 @@ const CategoriesList = styled.ul`
 const PriceFilter = styled.ul`
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+
+    @media (max-width: 670px) {
+        margin-top: 0;
+    }
 
     li {
         margin-bottom: 5px;

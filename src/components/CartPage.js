@@ -45,37 +45,38 @@ export default function CartPage() {
 
     return (
         <Container empty={cartProducts.length}>
-            {cartProducts.length === 0 ? (
-                <span>
-                    Your cart is empty.
-                    <br />
-                    <Link to="/">Start to fill it now.</Link>
-                </span>
-            ) : (
-                <ProductsList>
-                    {cartProducts.map((product) => (
-                        <CartProduct
-                            product={product}
-                            getCartProducts={getCartProducts}
-                            key={product.id}
-                        />
-                    ))}
-                </ProductsList>
-            )}
-            <Footer>
+            <div className="products">
+                {cartProducts.length === 0 ? (
+                    <span>
+                        Your cart is empty.
+                        <br />
+                        <Link to="/">Start to fill it now.</Link>
+                    </span>
+                ) : (
+                    <ProductsList>
+                        {cartProducts.map((product) => (
+                            <CartProduct
+                                product={product}
+                                getCartProducts={getCartProducts}
+                                key={product.id}
+                            />
+                        ))}
+                    </ProductsList>
+                )}
+            </div>
+            <Footer empty={cartProducts.length}>
                 <div className="total-price">
                     <h1>TOTAL</h1>
                     <h2>R$ {formatNumber(totalPrice)}</h2>
                 </div>
-                <button>Checkout</button>
+                <button onClick={() => history.push("/checkout")}>Checkout</button>
             </Footer>
         </Container>
     );
 }
 
 const Container = styled.div`
-    width: 100vw;
-    height: 100vh;
+    height: 100%;
     background-color: #e1e5ea;
     padding: 15px;
     display: flex;
@@ -84,10 +85,32 @@ const Container = styled.div`
     justify-content: ${(props) =>
         props.empty === 0 ? "center" : "flex-start"};
     text-align: center;
+    padding-top: 140px;
+    padding-bottom: 70px;
+
+    @media (min-width: 670px) {
+        padding-top: 100px;
+        flex-direction: initial;
+        align-items: ${(props) =>
+            props.empty === 0 ? "center" : "flex-start"};
+    }
 
     span {
         font-size: 20px;
         line-height: 30px;
+    }
+
+    .products {
+        width: 100%;
+
+        @media (min-width: 670px) {
+            width: 50%;
+        }
+    }
+
+    a {
+        font-weight: 700;
+        color: #da7f8f;
     }
 `;
 
@@ -96,21 +119,69 @@ const ProductsList = styled.ul`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 80px;
+
+    @media (min-width: 670px) {
+        padding-bottom: 10px;
+    }
 `;
 
 const Footer = styled.footer`
     width: 100%;
     height: 70px;
-    display: flex;
+    display: ${(props) =>
+        props.empty === 0 ? "none" : "flex"};
     justify-content: space-between;
     align-items: center;
-    background-color: red;
+    background-color: #da7f8f;
     position: fixed;
     bottom: 0;
-    left: 0;
+    right: 0;
     padding: 10px;
+
+    @media (min-width: 670px) {
+        width: 46%;
+        height: 82%;
+        margin-left: 20px;
+        top: 100px;
+        right: 15px;
+        border-radius: 5px;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
 
     h1 {
         margin-bottom: 10px;
+    }
+
+    .total-price {
+        font-weight: 700;
+        color: #FFFFFF;
+
+        @media (min-width: 670px) {
+            font-size: 30px;
+        }
+        
+    }
+
+    button {
+        width: 120px;
+        height: 40px;
+        border-radius: 5px;
+        border: none;
+        background-color: #FFFFFF;
+        font-size: 15px;
+        font-weight: 700;
+        color: #da7f8f;
+
+        @media (min-width: 670px) {
+            width: 200px;
+            height: 80px;
+            font-size: 25px;
+        }
+    }
+
+    button:hover {
+        opacity: 0.8;
     }
 `;

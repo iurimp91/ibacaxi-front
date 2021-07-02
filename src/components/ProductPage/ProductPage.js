@@ -24,7 +24,6 @@ export default function ProductPage() {
     }, [id]);
 
     function addToCart(goCart) {
-        console.log(user);
         if (!user) {
             toast("Please, log in before adding to cart.");
             return history.push(`/sign-in?next=/product/${id}`);
@@ -68,7 +67,14 @@ export default function ProductPage() {
                 <img src={product.image} alt={product.name} />
             </ProductImage>
             <ProductContainer>
-                <Title>{product.name}</Title>
+                <Title>
+                    {product.name}
+                    {
+                        product.quantity !== 0
+                        ? ""
+                        : <span>Out of stock!</span> 
+                    }
+                </Title>
                 <Line />
                 <div className="price-quantity">
                     <Price>R$ {formatNumber(product.price)}</Price>
@@ -78,6 +84,7 @@ export default function ProductPage() {
                         max={product.quantity}
                         onChange={(e) => setOrderQuantity(e.target.value)}
                         value={orderQuantity}
+                        disabled={product.quantity === 0}
                     />
                 </div>
                 <button className="cart" onClick={addToCart}>
@@ -86,7 +93,6 @@ export default function ProductPage() {
                 <button className="buy" onClick={() => addToCart(true)}>
                     Buy now
                 </button>
-
                 <Description>{product.description}</Description>
             </ProductContainer>
         </Container>
@@ -96,12 +102,15 @@ const Container = styled.div`
     color: #3a4242;
     background-color: #e1e5ea;
     max-width: 1100px;
-    margin: 10px auto;
-    padding: 0px 10px;
+    margin: 0 auto;
+    padding: 110px 10px 0 10px;
     display: flex;
 
     @media (max-width: 700px) {
         flex-direction: column;
+        padding-top: 140px;
+        width: 100%;
+        align-items: center;
     }
 `;
 
@@ -167,6 +176,15 @@ const Price = styled.p`
 const Title = styled.p`
     font-weight: bold;
     font-size: 30px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+
+    span {
+        font-size: 15px;
+        color: red;
+        margin-bottom: 0;
+    }
 `;
 
 const Description = styled.p`

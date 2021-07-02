@@ -13,7 +13,7 @@ export default function SearchBar() {
 
     function getProducts(e) {
         setProductName(e.target.value);
-        if (e.target.value && e.target.value.length < 3) {
+        if (/*e.target.value &&*/ e.target.value.length < 3) {
             return setProductsList([]);
         }
 
@@ -81,10 +81,10 @@ const Container = styled.div`
     input {
         width: 300px;
         height: 40px;
-        padding-left: 10px;
         border-radius: 5px;
         border: none;
         font-size: 15px;
+        padding-left: 10px;
 
         @media (max-width: 670px) {
             width: 100%;
