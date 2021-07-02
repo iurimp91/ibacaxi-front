@@ -79,7 +79,8 @@ export default function HomePage() {
                 newGeneralQuery = generalQuery.replace("lower", "higher");
             } else {
                 newGeneralQuery = generalQuery.replace(
-                    ("price=lower&" || "price=higher&"), ""
+                    "price=lower&" || "price=higher&",
+                    ""
                 );
             }
         }
@@ -95,10 +96,12 @@ export default function HomePage() {
                     <CategoriesList>
                         <h1>Filter by</h1>
                         {categories.map((category) => (
-                            <li key={category.id}>
+                            <li key={category.name}>
                                 <input
                                     type="checkbox"
-                                    onClick={() => makeCategoryQuery(category.name)}
+                                    onClick={() =>
+                                        makeCategoryQuery(category.name)
+                                    }
                                 />
                                 {category.name}
                             </li>
@@ -106,39 +109,42 @@ export default function HomePage() {
                     </CategoriesList>
                     <PriceFilter>
                         <h1>Order by</h1>
-                            <li key={"Standard"}>
-                                <input
-                                    type="radio" name="price-filter"
-                                    checked={priceCheck === "Standard"}
-                                    onChange={() => {
-                                        makePriceQuery("");
-                                        setPriceCheck("Standard");
-                                    }}
-                                />
-                                Standard
-                            </li>
-                            <li key={"Higher"}>
-                                <input
-                                    type="radio" name="price-filter"
-                                    checked={priceCheck === "Higher"}
-                                    onChange={() => {
-                                        makePriceQuery("higher");
-                                        setPriceCheck("Higher");
-                                    }}
-                                />
-                                Higher price
-                            </li>
-                            <li key={"Lower"}>
-                                <input
-                                    type="radio" name="price-filter"
-                                    checked={priceCheck === "Lower"}
-                                    onChange={() => {
-                                        makePriceQuery("lower");
-                                        setPriceCheck("Lower");
-                                    }}
-                                />
-                                Lower price
-                            </li>
+                        <li key={"Standard"}>
+                            <input
+                                type="radio"
+                                name="price-filter"
+                                checked={priceCheck === "Standard"}
+                                onChange={() => {
+                                    makePriceQuery("");
+                                    setPriceCheck("Standard");
+                                }}
+                            />
+                            Standard
+                        </li>
+                        <li key={"Higher"}>
+                            <input
+                                type="radio"
+                                name="price-filter"
+                                checked={priceCheck === "Higher"}
+                                onChange={() => {
+                                    makePriceQuery("higher");
+                                    setPriceCheck("Higher");
+                                }}
+                            />
+                            Higher price
+                        </li>
+                        <li key={"Lower"}>
+                            <input
+                                type="radio"
+                                name="price-filter"
+                                checked={priceCheck === "Lower"}
+                                onChange={() => {
+                                    makePriceQuery("lower");
+                                    setPriceCheck("Lower");
+                                }}
+                            />
+                            Lower price
+                        </li>
                     </PriceFilter>
                 </Sidebar>
                 <div>
@@ -152,6 +158,7 @@ export default function HomePage() {
 const Home = styled.div`
     max-width: 1500px;
     margin: 0px auto;
+    padding: 0px 20px;
     h1 {
         font-size: 20px;
         font-weight: bold;

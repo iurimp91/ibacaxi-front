@@ -13,8 +13,7 @@ export default function SearchBar() {
 
     function getProducts(e) {
         setProductName(e.target.value);
-        
-        if (e.target.value.length < 3) {
+        if (e.target.value && e.target.value.length < 3) {
             return setProductsList([]);
         }
 
@@ -35,7 +34,7 @@ export default function SearchBar() {
         setProductsList([]);
     }
 
-    return(
+    return (
         <ClickAwayListener onClickAway={closeDropdownMenu}>
             <Container onClick={getProducts}>
                 <Toaster />
@@ -46,16 +45,19 @@ export default function SearchBar() {
                     onChange={getProducts}
                 />
                 <IoIosSearch />
-                {
-                    productsList?.length > 0
-                    ? <DropdownMenu
-                        productsList={productsList}
-                        closeDropdownMenu={closeDropdownMenu}
-                        setProductsList={setProductsList}
-                        setProductName={setProductName}
-                    />
-                    : ""
-                }
+                {productsList?.length > 0 ? (
+                    <>
+                        <Line />
+                        <DropdownMenu
+                            productsList={productsList}
+                            closeDropdownMenu={closeDropdownMenu}
+                            setProductsList={setProductsList}
+                            setProductName={setProductName}
+                        />
+                    </>
+                ) : (
+                    ""
+                )}
             </Container>
         </ClickAwayListener>
     );
@@ -68,6 +70,7 @@ const Container = styled.div`
     position: absolute;
     top: 20px;
     left: calc(50% - 150px);
+    width: 300px;
 
     @media (max-width: 670px) {
         width: 100%;
@@ -86,7 +89,7 @@ const Container = styled.div`
         @media (max-width: 670px) {
             width: 100%;
             border-radius: 0;
-            box-shadow: 0 4px 4px 0 rgba(218, 127, 143, 0.25); 
+            box-shadow: 0 4px 4px 0 rgba(218, 127, 143, 0.25);
         }
     }
 
@@ -95,5 +98,12 @@ const Container = styled.div`
         position: absolute;
         top: 7px;
         right: 5px;
-    }    
+    }
+`;
+const Line = styled.div`
+    position: absolute;
+    background-color: white;
+    height: 6px;
+    width: 100%;
+    top: 37px;
 `;

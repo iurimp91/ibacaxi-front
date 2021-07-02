@@ -12,29 +12,28 @@ export default function ProductPage() {
     const [orderQuantity, setOrderQuantity] = useState(1);
     const { user } = useContext(UserContext);
     const history = useHistory();
-    const localUser = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
         const productRequest = axios.get(`http://localhost:4000/product/${id}`);
         productRequest.then((respose) => {
             setProduct(respose.data);
-            console.log(respose.data);
         });
         productRequest.catch((error) => alert(error.response.status));
     }, [id]);
 
     function addToCart(goCart) {
-        if (!user && !localUser) {
+        console.log(user);
+        if (!user) {
             toast("Please, log in before adding to cart.");
             return history.push(`/sign-in?next=/product/${id}`);
         }
         const config = {
             headers: {
-                Authorization: `Bearer ${localUser.token || user.token}`,
+                Authorization: `Bearer ${user.token}`,
             },
         };
         const body = {
-            userId: localUser.id || user.id,
+            userId: user.id,
             productId: product.id,
             quantity: parseInt(orderQuantity),
         };
@@ -47,7 +46,7 @@ export default function ProductPage() {
         addCartRequest.then((response) => {
             toast.success("Added to cart!");
             if (goCart === true) {
-                return history.push("/cart");
+                return history.push("/checkout");
             }
         });
 
@@ -82,7 +81,9 @@ export default function ProductPage() {
                 <button className="cart" onClick={addToCart}>
                     Add to cart
                 </button>
-                <button className="buy">Buy now</button>
+                <button className="buy" onClick={() => addToCart(true)}>
+                    Buy now
+                </button>
 
                 <Description>{product.description}</Description>
             </ProductContainer>
@@ -93,7 +94,8 @@ const Container = styled.div`
     color: #3a4242;
     background-color: #e1e5ea;
     max-width: 1100px;
-    margin: 0 auto;
+    margin: 10px auto;
+    padding: 0px 10px;
     display: flex;
 
     @media (max-width: 700px) {

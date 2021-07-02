@@ -11,6 +11,9 @@ export default function SignUpPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const history = useHistory();
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const next = params.get("next");
 
     function signUp(e) {
         e.preventDefault();
@@ -31,7 +34,7 @@ export default function SignUpPage() {
                 setPassword("");
                 setConfirmPassword("");
                 setDisabled(false);
-                history.push("/sign-in");
+                history.push(`/sign-in${next ? `?next=${next}` : ""}`);
             });
 
             request.catch((error) => {
@@ -87,7 +90,7 @@ export default function SignUpPage() {
                     Create Account
                 </button>
             </Form>
-            <Link to={disabled ? "" : "/sign-in"}>
+            <Link to={disabled ? "" : `/sign-in${next ? `?next=${next}` : ""}`}>
                 Already have an account? Sign in.
             </Link>
         </Container>

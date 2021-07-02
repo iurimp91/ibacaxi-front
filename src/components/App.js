@@ -10,6 +10,7 @@ import CartPage from "./CartPage.js";
 import ProductPage from "./ProductPage/ProductPage";
 import CheckoutPage from "./CheckoutPage/CheckoutPage";
 import Header from "./Header/Header";
+import NotFound from "./NotFound.js";
 
 function App() {
     const [user, setUser] = useState();
@@ -19,6 +20,7 @@ function App() {
             <ResetCSS />
             <GlobalStyle />
             <UserContext.Provider value={{ user, setUser }}>
+                <Header user={user} setUser={setUser} />
                 <Switch>
                     <Route exact path="/sign-in">
                         <SignInPage />
@@ -27,20 +29,19 @@ function App() {
                         <SignUpPage />
                     </Route>
                     <Route exact path="/">
-                        <Header user={user} setUser={setUser} />
                         <HomePage />
                     </Route>
                     <Route exact path="/cart">
-                        <Header user={user} setUser={setUser} />
                         <CartPage />
                     </Route>
                     <Route exact path="/checkout">
-                        <Header user={user} setUser={setUser} />
                         <CheckoutPage />
                     </Route>
                     <Route exact path="/product/:id">
-                        <Header user={user} setUser={setUser} />
                         <ProductPage />
+                    </Route>
+                    <Route path="/*">
+                        <NotFound />
                     </Route>
                 </Switch>
             </UserContext.Provider>

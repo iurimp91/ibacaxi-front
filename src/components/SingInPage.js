@@ -11,6 +11,9 @@ export default function SignInPage() {
     const [password, setPassword] = useState("");
     const history = useHistory();
     const { setUser } = useContext(UserContext);
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const next = params.get("next");
 
     useEffect(() => {
         if (localStorage.user) {
@@ -38,12 +41,10 @@ export default function SignInPage() {
             const stringUserData = JSON.stringify(response.data);
             localStorage.setItem("user", stringUserData);
             setDisabled(false);
-            if (!localStorage.getItem("lastPage")) {
-                history.push("/");
+            if (next) {
+                history.push(next);
             } else {
-                const lastPage = localStorage.getItem("lastPage");
-                localStorage.removeItem("lastPage");
-                history.push(lastPage);
+                history.push("/");
             }
         });
 
@@ -83,7 +84,9 @@ export default function SignInPage() {
                     Sign In
                 </button>
             </Form>
-            <Link to={disabled ? "" : "/sign-up"}>Create an account.</Link>
+            <Link to={disabled ? "" : `/sign-up${next ? `?next=${next}` : ""}`}>
+                Create an account.
+            </Link>
         </Container>
     );
 }

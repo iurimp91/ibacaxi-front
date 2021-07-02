@@ -16,11 +16,12 @@ export default function Header({ user, setUser }) {
         if (localUser && !user) {
             setUser(JSON.parse(localStorage.user));
         }
-    }, []);
+        // eslint-disable-next-line
+    }, [user]);
 
     function signOut() {
         const config = {
-            headers: { Authorization: `Bearer ${localUser.token}` },
+            headers: { Authorization: `Bearer ${user.token}` },
         };
 
         const request = axios.post(
@@ -31,8 +32,8 @@ export default function Header({ user, setUser }) {
 
         request.then((response) => {
             localStorage.removeItem("user");
+            setUser(false);
             toast.success("Logged out!");
-            history.push("/sign-in");
         });
 
         request.catch((error) => {
@@ -50,13 +51,13 @@ export default function Header({ user, setUser }) {
                 </Title>
                 <SearchBar />
                 <Buttons>
-                    {localUser || user ? (
+                    {user ? (
                         <>
                             <RiLogoutBoxFill onClick={signOut} />
                             <span>
                                 Hello,
                                 <br />
-                                <strong>{localUser?.name}</strong>
+                                <strong>{user.name.split(" ")[0]}</strong>
                             </span>
                         </>
                     ) : (

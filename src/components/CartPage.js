@@ -13,9 +13,11 @@ export default function CartPage() {
     const localUser = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
-        getCartProducts();
+        if (user) {
+            getCartProducts();
+        }
         // eslint-disable-next-line
-    }, []);
+    }, [user]);
 
     function getCartProducts() {
         const config = {
