@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 import formatNumber from "../../functions/formatNumber";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ProductPage() {
     const [product, setProduct] = useState(false);
@@ -18,6 +18,7 @@ export default function ProductPage() {
         const productRequest = axios.get(`http://localhost:4000/product/${id}`);
         productRequest.then((respose) => {
             setProduct(respose.data);
+            console.log(respose.data);
         });
         productRequest.catch((error) => alert(error.response.status));
     }, [id]);
@@ -28,13 +29,21 @@ export default function ProductPage() {
             localStorage.setItem("lastPage", `/product/${id}`);
             return history.push("/sign-in");
         }
-        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localUser.token || user.token}`,
+            },
+        };
         const body = {
             userId: localUser.id || user.id,
             productId: product.id,
             quantity: parseInt(orderQuantity),
-        }
-        const addCartRequest = axios.post("http://localhost:4000/cart", body, config);
+        };
+        const addCartRequest = axios.post(
+            "http://localhost:4000/cart",
+            body,
+            config
+        );
 
         addCartRequest.then((response) => {
             toast.success("Added to cart!");
@@ -42,7 +51,7 @@ export default function ProductPage() {
 
         addCartRequest.catch((error) => {
             if (error.response.status === 403) {
-                toast.error("Sold out.")
+                toast.error("Sold out.");
             } else {
                 alert("error");
             }
@@ -60,9 +69,17 @@ export default function ProductPage() {
                 <Line />
                 <div className="price-quantity">
                     <Price>R$ {formatNumber(product.price)}</Price>
-                    <input type="number" min="1" max={product.quantity} onChange={e => setOrderQuantity(e.target.value)} value={orderQuantity} />
+                    <input
+                        type="number"
+                        min="1"
+                        max={product.quantity}
+                        onChange={(e) => setOrderQuantity(e.target.value)}
+                        value={orderQuantity}
+                    />
                 </div>
-                <button className="cart" onClick={addToCart}>Add to cart</button>
+                <button className="cart" onClick={addToCart}>
+                    Add to cart
+                </button>
                 <button className="buy">Buy now</button>
                 <Description>{product.description}</Description>
             </ProductContainer>
