@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Form from "./CheckoutFormStyle";
 import Loader from "react-loader-spinner";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export default function CheckoutForm({ totalPrice }) {
     const { user } = useContext(UserContext);
@@ -14,6 +15,7 @@ export default function CheckoutForm({ totalPrice }) {
     const [year, setYear] = useState("");
     const [cvv, setCVV] = useState("");
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
     const today = new Date();
     const currentMonth = String(today.getMonth()).padStart(2, "0");
     const currentYear = String(today.getFullYear()).substring(2);
@@ -47,8 +49,7 @@ export default function CheckoutForm({ totalPrice }) {
         );
 
         orderRequest.then((response) => {
-            toast("cool");
-            setLoading(false);
+            history.push(`/success/${response.data.order}`);
         });
 
         orderRequest.catch((error) => {
