@@ -3,18 +3,25 @@ import { useContext, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
+import formatNumber from "../functions/formatNumber";
 
 export default function CartProduct(props) {
-    const { id, productId, productName, image, brief, price, inventory } = props.product;
+    const { id, productId, productName, image, brief, price, inventory } =
+        props.product;
     const [newQuantity, setNewQuantity] = useState(props.product.quantity);
     const { user } = useContext(UserContext);
-    const localUser = JSON.parse(localStorage.getItem("user"));
-    const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } };
     const getCartProducts = props.getCartProducts;
+    let config;
+    if (user) {
+        config = { headers: { Authorization: `Bearer ${user.token}` } };
+    }
 
     function deleteFromCart() {
-        const deleteRequest = axios.delete(`http://localhost:4000/cart?id=${id}`, config);
+        const deleteRequest = axios.delete(
+            `http://localhost:4000/cart?id=${id}`,
+            config
+        );
 
         deleteRequest.then((response) => {
             toast.success("Deleted!");
@@ -28,9 +35,13 @@ export default function CartProduct(props) {
 
     function updateOrders(e) {
         setNewQuantity(e.target.value);
-        
+
         const body = { productId, quantity: parseInt(e.target.value) };
-        const updateQuantityRequest = axios.put("http://localhost:4000/cart", body, config);
+        const updateQuantityRequest = axios.put(
+            "http://localhost:4000/cart",
+            body,
+            config
+        );
 
         updateQuantityRequest.then((response) => {
             toast.success("Quantity updated!");
@@ -42,19 +53,25 @@ export default function CartProduct(props) {
         });
     }
 
-    return(
+    return (
         <Container>
             <Toaster />
             <div className="product-info">
                 <Picture src={image} alt={brief} />
                 <DescriptionAndQuantity>
                     <h1>{productName}</h1>
-                    <form onSubmit={e => e.preventDefault()}>
-                        <input type="number" min="1" max={inventory} onChange={e => updateOrders(e)} value={newQuantity} />
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <input
+                            type="number"
+                            min="1"
+                            max={inventory}
+                            onChange={(e) => updateOrders(e)}
+                            value={newQuantity}
+                        />
                     </form>
                 </DescriptionAndQuantity>
             </div>
-            <Price>R$ {(newQuantity*price/100).toFixed(2).replace(".",",").replace("-","")}</Price>
+            <Price>R$ {formatNumber(newQuantity * price)}</Price>
             <BsFillTrashFill className="trash-icon" onClick={deleteFromCart} />
         </Container>
     );
@@ -66,7 +83,7 @@ const Container = styled.li`
     align-items: center;
     justify-content: space-between;
     border-radius: 5px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     margin-bottom: 10px;
     padding: 10px;
     position: relative;

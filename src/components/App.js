@@ -8,7 +8,10 @@ import SignInPage from "./SingInPage.js";
 import HomePage from "./HomePage/HomePage";
 import CartPage from "./CartPage.js";
 import ProductPage from "./ProductPage/ProductPage";
+import CheckoutPage from "./CheckoutPage/CheckoutPage";
+import SuccessPage from "./SuccessPage/SuccessPage";
 import Header from "./Header/Header";
+import NotFound from "./NotFound.js";
 
 function App() {
     const [user, setUser] = useState();
@@ -18,6 +21,7 @@ function App() {
             <ResetCSS />
             <GlobalStyle />
             <UserContext.Provider value={{ user, setUser }}>
+                <Header user={user} setUser={setUser} />
                 <Switch>
                     <Route exact path="/sign-in">
                         <SignInPage />
@@ -26,16 +30,22 @@ function App() {
                         <SignUpPage />
                     </Route>
                     <Route exact path="/">
-                        <Header />
                         <HomePage />
                     </Route>
                     <Route exact path="/cart">
-                        <Header />
                         <CartPage />
                     </Route>
+                    <Route exact path="/checkout">
+                        <CheckoutPage />
+                    </Route>
                     <Route exact path="/product/:id">
-                        <Header />
                         <ProductPage />
+                    </Route>
+                    <Route exact path="/success/:id">
+                        <SuccessPage />
+                    </Route>
+                    <Route path="/*">
+                        <NotFound />
                     </Route>
                 </Switch>
             </UserContext.Provider>

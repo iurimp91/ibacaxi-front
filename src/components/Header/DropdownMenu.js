@@ -12,21 +12,28 @@ export default function DropdownMenu(props) {
 
     return (
         <Container>
-            {productsList.map((product) => 
-                <Link key={product.id} to={`/product/${product.id}`} onClick={selectProduct}>
+            {productsList.map((product) => (
+                <Link
+                    key={product.id}
+                    to={`/product/${product.id}`}
+                    onClick={selectProduct}
+                >
                     <img src={product.image} alt={product.brief} />
                     <h1>{product.name}</h1>
                 </Link>
-            )}
+            ))}
         </Container>
     );
 }
 
 const Container = styled.ul`
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     width: 100%;
     display: flex;
     flex-direction: column;
+    max-height: 60vh;
+    overflow-y: auto;
+    border-radius: 5px;
 
     a {
         width: 100%;
@@ -37,9 +44,9 @@ const Container = styled.ul`
         text-decoration: none;
         color: #000000;
     }
-    
+
     a:hover {
-        background-color: #DCDCDC;
+        background-color: #dcdcdc;
     }
 
     img {

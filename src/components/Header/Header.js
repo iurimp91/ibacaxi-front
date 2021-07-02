@@ -2,27 +2,38 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/img/logo.png";
 import { IoPersonCircleSharp, IoCartSharp } from "react-icons/io5";
+import { useEffect } from "react";
 import SearchBar from "./SearchBar";
-import { useContext } from "react";
-import UserContext from "../../contexts/UserContext";
 import { RiLogoutBoxFill } from "react-icons/ri";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
-export default function Header() {
+export default function Header({ user, setUser }) {
     const history = useHistory();
-    const { user } = useContext(UserContext);
     const localUser = JSON.parse(localStorage.getItem("user"));
-    
-    function signOut() {
-        const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } };
 
-        const request = axios.post("http://localhost:4000/sign-out", [] ,config);
+    useEffect(() => {
+        if (localUser && !user) {
+            setUser(JSON.parse(localStorage.user));
+        }
+        // eslint-disable-next-line
+    }, [user]);
+
+    function signOut() {
+        const config = {
+            headers: { Authorization: `Bearer ${user.token}` },
+        };
+
+        const request = axios.post(
+            "http://localhost:4000/sign-out",
+            [],
+            config
+        );
 
         request.then((response) => {
             localStorage.removeItem("user");
+            setUser(false);
             toast.success("Logged out!");
-            history.push("/sign-in");
         });
 
         request.catch((error) => {
@@ -40,15 +51,22 @@ export default function Header() {
                 </Title>
                 <SearchBar />
                 <Buttons>
-                    {
-                        (localUser || user)
-                        ? 
-                            <>
-                                <RiLogoutBoxFill onClick={signOut} />
-                                <span>Hello,<br/><strong>{localUser?.name}</strong></span>
-                            </>
-                        : <IoPersonCircleSharp onClick={() => history.push("/sign-in")} />
-                    }
+                    {user ? (
+                        <>
+                            <RiLogoutBoxFill onClick={signOut} />
+                            <span>
+                                Hello,
+                                <br />
+                                <strong>
+                                    {user && user.name.split(" ")[0]}
+                                </strong>
+                            </span>
+                        </>
+                    ) : (
+                        <IoPersonCircleSharp
+                            onClick={() => history.push("/sign-in")}
+                        />
+                    )}
                     <IoCartSharp onClick={() => history.push("/cart")} />
                 </Buttons>
             </TopBar>
