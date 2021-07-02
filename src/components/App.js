@@ -8,6 +8,7 @@ import SignInPage from "./SingInPage.js";
 import HomePage from "./HomePage/HomePage";
 import CartPage from "./CartPage.js";
 import ProductPage from "./ProductPage/ProductPage";
+import CheckoutPage from "./CheckoutPage/CheckoutPage";
 import Header from "./Header/Header";
 
 function App() {
@@ -31,6 +32,9 @@ function App() {
                     </Route>
                     <Route exact path="/cart">
                         <CartPage />
+                    </Route>
+                    <Route exact path="/checkout">
+                        <CheckoutPage />
                     </Route>
                     <Route exact path="/product/:id">
                         <ProductPage />
