@@ -30,7 +30,10 @@ export default function SignInPage() {
 
         const toastLoadingId = toast.loading("Loading...");
         const body = { email, password };
-        const request = axios.post("http://localhost:4000/sign-in", body);
+        const request = axios.post(
+            `${process.env.REACT_APP_API_URL}/sign-in`,
+            body
+        );
 
         request.then((response) => {
             toast.dismiss(toastLoadingId);

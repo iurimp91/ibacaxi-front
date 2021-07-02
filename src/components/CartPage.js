@@ -28,7 +28,10 @@ export default function CartPage() {
     }, [user]);
 
     function getCartProducts() {
-        const cartRequest = axios.get("http://localhost:4000/cart", config);
+        const cartRequest = axios.get(
+            `${process.env.REACT_APP_API_URL}/cart`,
+            config
+        );
 
         cartRequest.then((response) => {
             setCartProducts(response.data.products);

@@ -29,7 +29,10 @@ export default function CheckoutPage() {
                 Authorization: `Bearer ${user.token}`,
             },
         };
-        const cartRequest = axios.get("http://localhost:4000/cart", config);
+        const cartRequest = axios.get(
+            `${process.env.REACT_APP_API_URL}/cart`,
+            config
+        );
         cartRequest.then((response) => {
             if (response.data.products.length === 0) {
                 history.push("/cart");
