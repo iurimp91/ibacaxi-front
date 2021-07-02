@@ -14,7 +14,9 @@ export default function ProductPage() {
     const history = useHistory();
 
     useEffect(() => {
-        const productRequest = axios.get(`http://localhost:4000/product/${id}`);
+        const productRequest = axios.get(
+            `${process.env.REACT_APP_API_URL}/product/${id}`
+        );
         productRequest.then((respose) => {
             setProduct(respose.data);
         });
@@ -37,7 +39,7 @@ export default function ProductPage() {
             quantity: parseInt(orderQuantity),
         };
         const addCartRequest = axios.post(
-            "http://localhost:4000/cart",
+            `${process.env.REACT_APP_API_URL}/cart`,
             body,
             config
         );

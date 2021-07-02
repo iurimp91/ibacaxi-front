@@ -21,7 +21,7 @@ export default function CartProduct(props) {
 
     function deleteFromCart() {
         const deleteRequest = axios.delete(
-            `http://localhost:4000/cart?id=${id}`,
+            `${process.env.REACT_APP_API_URL}/cart?id=${id}`,
             config
         );
 
@@ -40,7 +40,7 @@ export default function CartProduct(props) {
 
         const body = { productId, quantity: parseInt(e.target.value) };
         const updateQuantityRequest = axios.put(
-            "http://localhost:4000/cart",
+            `${process.env.REACT_APP_API_URL}/cart`,
             body,
             config
         );

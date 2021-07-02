@@ -25,7 +25,7 @@ export default function Header({ user, setUser }) {
         };
 
         const request = axios.post(
-            "http://localhost:4000/sign-out",
+            `${process.env.REACT_APP_API_URL}/sign-out`,
             [],
             config
         );

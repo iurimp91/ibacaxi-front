@@ -18,7 +18,7 @@ export default function SearchBar() {
         }
 
         const request = axios.get(`
-            http://localhost:4000/search?product=${e.target.value}
+            ${process.env.REACT_APP_API_URL}/search?product=${e.target.value}
         `);
 
         request.then((response) => {
