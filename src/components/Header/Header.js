@@ -2,8 +2,14 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/img/logo.png";
 import { IoPersonCircleSharp, IoCartSharp } from "react-icons/io5";
+import { useEffect } from "react";
 
-export default function Header() {
+export default function Header({ user, setUser }) {
+    useEffect(() => {
+        if (localStorage.user && !user) {
+            setUser(JSON.parse(localStorage.user));
+        }
+    }, []);
     return (
         <SafeMargin>
             <TopBar>

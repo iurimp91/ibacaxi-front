@@ -9,22 +9,31 @@ import CheckoutForm from "./CheckoutForm";
 export default function CheckoutPage() {
     const { user } = useContext(UserContext);
     const history = useHistory();
-    const localUser = JSON.parse(localStorage.getItem("user"));
     const [cartProducts, setCartProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState("");
 
     useEffect(() => {
-        getCartProducts();
-    }, []);
+        if (!localStorage.user) {
+            history.push("/");
+            return;
+        }
+        if (user) {
+            getCartProducts();
+        }
+    }, [user]);
 
     function getCartProducts() {
         const config = {
             headers: {
-                Authorization: `Bearer ${localUser.token || user.token}`,
+                Authorization: `Bearer ${user.token}`,
             },
         };
         const cartRequest = axios.get("http://localhost:4000/cart", config);
         cartRequest.then((response) => {
+            if (response.data.products.length === 0) {
+                history.push("/cart");
+                return;
+            }
             setCartProducts(response.data.products);
             setTotalPrice(response.data.total);
         });

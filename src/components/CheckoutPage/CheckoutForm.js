@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../contexts/UserContext";
 import toast, { Toaster } from "react-hot-toast";
 import Form from "./CheckoutFormStyle";
 import Loader from "react-loader-spinner";
 import axios from "axios";
 
-export default function CheckoutForm({ totalPrice, user }) {
+export default function CheckoutForm({ totalPrice }) {
+    const { user } = useContext(UserContext);
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const [creditCard, setCreditCard] = useState("");
@@ -12,6 +14,9 @@ export default function CheckoutForm({ totalPrice, user }) {
     const [year, setYear] = useState("");
     const [cvv, setCVV] = useState("");
     const [loading, setLoading] = useState(false);
+    const today = new Date();
+    const currentMonth = String(today.getMonth()).padStart(2, "0");
+    const currentYear = String(today.getFullYear()).substring(2);
 
     function placeOrder(e) {
         e.preventDefault();
@@ -22,14 +27,6 @@ export default function CheckoutForm({ totalPrice, user }) {
         }
         if (!address.trim()) {
             toast.error("Adress is required");
-            error++;
-        }
-        if (parseInt(month) > 12) {
-            toast.error("Invalid month");
-            error++;
-        }
-        if (parseInt(year) < 21) {
-            toast.error("Invalid year");
             error++;
         }
         if (error) {
@@ -44,17 +41,19 @@ export default function CheckoutForm({ totalPrice, user }) {
         };
         const body = { name, address, creditCard, expiration, cvv, totalPrice };
         const orderRequest = axios.post(
-            "http://localhost:4000/order",
+            "http://localhost:4000/checkout",
             body,
             config
         );
 
         orderRequest.then((response) => {
             toast("cool");
+            setLoading(false);
         });
 
         orderRequest.catch((error) => {
             toast("Error!");
+            setLoading(false);
         });
     }
 
@@ -85,7 +84,7 @@ export default function CheckoutForm({ totalPrice, user }) {
                     )
                 }
                 minLength="16"
-                type="number"
+                inputMode="numeric"
                 disabled={loading}
                 required
             ></input>
@@ -105,7 +104,7 @@ export default function CheckoutForm({ totalPrice, user }) {
                         placeholder="MM"
                         minLength="2"
                         type="number"
-                        min="01"
+                        min={year === currentYear ? currentMonth : "01"}
                         max="12"
                         disabled={loading}
                         required

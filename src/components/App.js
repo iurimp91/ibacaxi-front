@@ -19,7 +19,7 @@ function App() {
             <ResetCSS />
             <GlobalStyle />
             <UserContext.Provider value={{ user, setUser }}>
-                <Header />
+                <Header user={user} setUser={setUser} />
                 <Switch>
                     <Route exact path="/sign-in">
                         <SignInPage />
