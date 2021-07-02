@@ -10,7 +10,7 @@ export default function CartProduct(props) {
     const [newQuantity, setNewQuantity] = useState(props.product.quantity);
     const { user } = useContext(UserContext);
     const localUser = JSON.parse(localStorage.getItem("user"));
-    const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } }
+    const config = { headers: { Authorization: `Bearer ${localUser.token || user.token}` } };
     const getCartProducts = props.getCartProducts;
 
     function deleteFromCart() {
@@ -50,7 +50,7 @@ export default function CartProduct(props) {
                 <DescriptionAndQuantity>
                     <h1>{productName}</h1>
                     <form onSubmit={e => e.preventDefault()}>
-                        <input type="number" id="number" min="1" max={inventory} onChange={e => updateOrders(e)} value={newQuantity} />
+                        <input type="number" min="1" max={inventory} onChange={e => updateOrders(e)} value={newQuantity} />
                     </form>
                 </DescriptionAndQuantity>
             </div>

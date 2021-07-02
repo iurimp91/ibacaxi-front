@@ -53,4 +53,8 @@ export const ResetCSS = createGlobalStyle`
     * {
         box-sizing: border-box;
     }
+
+    strong {
+        font-weight: 700;
+    }
 `;
