@@ -5,6 +5,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import styled from "styled-components";
+import ClickAwayListener from "react-click-away-listener";
 
 export default function SearchBar() {
     const [productName, setProductName] = useState("");
@@ -12,6 +13,10 @@ export default function SearchBar() {
 
     function getProducts(e) {
         setProductName(e.target.value);
+        
+        if (e.target.value.length < 3) {
+            return setProductsList([]);
+        }
 
         const request = axios.get(`
             http://localhost:4000/search?product=${e.target.value}
@@ -26,27 +31,33 @@ export default function SearchBar() {
         });
     }
 
+    function closeDropdownMenu() {
+        setProductsList([]);
+    }
+
     return(
-        <Container>
-            <Toaster />
-            <DebounceInput
-                placeholder="Search for products"
-                debounceTimeout={300}
-                value={productName}
-                onChange={getProducts}
-                minLength={3}
-            />
-            <IoIosSearch />
-            {
-                productsList?.length > 0
-                ? <DropdownMenu
-                    setProductName={setProductName}
-                    productsList={productsList}
-                    setProductsList={setProductsList}
+        <ClickAwayListener onClickAway={closeDropdownMenu}>
+            <Container onClick={getProducts}>
+                <Toaster />
+                <DebounceInput
+                    placeholder="Search for products"
+                    debounceTimeout={300}
+                    value={productName}
+                    onChange={getProducts}
                 />
-                : ""
-            }
-        </Container>
+                <IoIosSearch />
+                {
+                    productsList?.length > 0
+                    ? <DropdownMenu
+                        productsList={productsList}
+                        closeDropdownMenu={closeDropdownMenu}
+                        setProductsList={setProductsList}
+                        setProductName={setProductName}
+                    />
+                    : ""
+                }
+            </Container>
+        </ClickAwayListener>
     );
 }
 

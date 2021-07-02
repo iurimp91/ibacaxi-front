@@ -5,7 +5,7 @@ import { IoPersonCircleSharp, IoCartSharp } from "react-icons/io5";
 import SearchBar from "./SearchBar";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import { RiContactsBookLine, RiLogoutBoxFill } from "react-icons/ri";
+import { RiLogoutBoxFill } from "react-icons/ri";
 import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
 

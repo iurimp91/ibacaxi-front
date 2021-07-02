@@ -1,26 +1,24 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import ClickAwayListener from "react-click-away-listener";
 
 export default function DropdownMenu(props) {
-    const { setProductName, productsList, setProductsList } = props;
+    const { productsList, setProductsList, setProductName } = props;
 
-    function closeDropdownMenu() {
-        setProductName("");
+    function selectProduct(e) {
+        e.stopPropagation();
         setProductsList([]);
+        setProductName("");
     }
 
     return (
-        <ClickAwayListener onClickAway={closeDropdownMenu}>
-            <Container>
-                {productsList.map((product) => 
-                    <Link key={product.id} to={`/product/${product.id}`} onClick={closeDropdownMenu}>
-                        <img src={product.image} alt={product.brief} />
-                        <h1>{product.name}</h1>
-                    </Link>
-                )}
-            </Container>
-        </ClickAwayListener>
+        <Container>
+            {productsList.map((product) => 
+                <Link key={product.id} to={`/product/${product.id}`} onClick={selectProduct}>
+                    <img src={product.image} alt={product.brief} />
+                    <h1>{product.name}</h1>
+                </Link>
+            )}
+        </Container>
     );
 }
 

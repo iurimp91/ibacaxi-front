@@ -27,7 +27,6 @@ export default function HomePage() {
     }
 
     function getProducts(generalQuery) {
-        console.log(generalQuery);
         const prodRequest = axios.get(
             `http://localhost:4000/products?${generalQuery}`
         );
@@ -96,23 +95,18 @@ export default function HomePage() {
                     <CategoriesList>
                         <h1>Filter by</h1>
                         {categories.map((category) => (
-                            <>
-                                <li
-                                    key={category.id}
-                                    
-                                >
-                                    <input
-                                        type="checkbox"
-                                        onClick={() => makeCategoryQuery(category.name)}
-                                    />
-                                    {category.name}
-                                </li>
-                            </>
+                            <li key={category.id}>
+                                <input
+                                    type="checkbox"
+                                    onClick={() => makeCategoryQuery(category.name)}
+                                />
+                                {category.name}
+                            </li>
                         ))}
                     </CategoriesList>
                     <PriceFilter>
                         <h1>Order by</h1>
-                            <li>
+                            <li key={"Standard"}>
                                 <input
                                     type="radio" name="price-filter"
                                     checked={priceCheck === "Standard"}
@@ -123,7 +117,7 @@ export default function HomePage() {
                                 />
                                 Standard
                             </li>
-                            <li>
+                            <li key={"Higher"}>
                                 <input
                                     type="radio" name="price-filter"
                                     checked={priceCheck === "Higher"}
@@ -134,7 +128,7 @@ export default function HomePage() {
                                 />
                                 Higher price
                             </li>
-                            <li>
+                            <li key={"Lower"}>
                                 <input
                                     type="radio" name="price-filter"
                                     checked={priceCheck === "Lower"}
