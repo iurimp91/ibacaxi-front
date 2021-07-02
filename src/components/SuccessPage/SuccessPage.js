@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
-import formatNumber from "../../functions/formatNumber";
 
 export default function SuccessPage() {
     const { user } = useContext(UserContext);
@@ -11,13 +10,13 @@ export default function SuccessPage() {
     const [orderInfo, setOrderInfo] = useState({});
     const { id } = useParams();
     console.log(orderInfo);
-    const { date, email, orderId, total } = orderInfo;
+    const { date, email, orderId } = orderInfo;
     useEffect(() => {
         if (!localStorage.user) {
             history.push("/");
             return;
         }
-        if (user) {
+        if (user && user.token) {
             getOrderInfo();
         }
         // eslint-disable-next-line
@@ -44,7 +43,7 @@ export default function SuccessPage() {
     return (
         <Container>
             <Title>Your order has been placed!</Title>
-            {orderInfo.name && (
+            {orderInfo.email && (
                 <>
                     <p>
                         Please check <strong>{email}</strong> for your
@@ -52,7 +51,6 @@ export default function SuccessPage() {
                     </p>
                     <p>Order placed on: {String(new Date(date))}</p>
                     <p>Order id: {orderId}</p>
-                    <p>Total: R$ {formatNumber(total)}</p>
                 </>
             )}
             <Button onClick={() => history.push("/")}>Go home</Button>

@@ -23,6 +23,9 @@ function App() {
             <UserContext.Provider value={{ user, setUser }}>
                 <Header user={user} setUser={setUser} />
                 <Switch>
+                    <Route exact path="/success/:id">
+                        <SuccessPage />
+                    </Route>
                     <Route exact path="/sign-in">
                         <SignInPage />
                     </Route>
@@ -41,10 +44,8 @@ function App() {
                     <Route exact path="/product/:id">
                         <ProductPage />
                     </Route>
-                    <Route exact path="/success/:id">
-                        <SuccessPage />
-                    </Route>
-                    <Route path="/*">
+
+                    <Route path="*">
                         <NotFound />
                     </Route>
                 </Switch>
