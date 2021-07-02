@@ -43,7 +43,7 @@ export default function CheckoutForm({ totalPrice }) {
         };
         const body = { name, address, creditCard, expiration, cvv, totalPrice };
         const orderRequest = axios.post(
-            "http://localhost:4000/checkout",
+            `${process.env.REACT_APP_API_URL}/checkout`,
             body,
             config
         );

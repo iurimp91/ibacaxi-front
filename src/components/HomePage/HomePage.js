@@ -15,7 +15,9 @@ export default function HomePage() {
     }, []);
 
     function getCategories() {
-        const categoriesRequest = axios.get("http://localhost:4000/categories");
+        const categoriesRequest = axios.get(
+            `${process.env.REACT_APP_API_URL}/categories`
+        );
 
         categoriesRequest.then((response) => {
             setCategories(response.data);
@@ -28,7 +30,7 @@ export default function HomePage() {
 
     function getProducts(generalQuery) {
         const prodRequest = axios.get(
-            `http://localhost:4000/products?${generalQuery}`
+            `${process.env.REACT_APP_API_URL}/products?${generalQuery}`
         );
         prodRequest.then((respose) => {
             setProducts(respose.data);

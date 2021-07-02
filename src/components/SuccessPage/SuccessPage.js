@@ -29,7 +29,7 @@ export default function SuccessPage() {
             },
         };
         const orderInfoRequest = axios.get(
-            `http://localhost:4000/order?id=${id}`,
+            `${process.env.REACT_APP_API_URL}/order?id=${id}`,
             config
         );
         orderInfoRequest.then((response) => {

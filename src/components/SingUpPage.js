@@ -24,7 +24,10 @@ export default function SignUpPage() {
         } else {
             const toastLoadingId = toast.loading("Loading...");
             const body = { name, email, password };
-            const request = axios.post("http://localhost:4000/sign-up", body);
+            const request = axios.post(
+                `${process.env.REACT_APP_API_URL}/sign-up`,
+                body
+            );
 
             request.then((response) => {
                 toast.dismiss(toastLoadingId);
