@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
-import formatNumber from "../../functions/formatNumber";
 
 export default function SuccessPage() {
     const { user } = useContext(UserContext);
