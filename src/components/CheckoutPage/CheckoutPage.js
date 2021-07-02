@@ -20,6 +20,7 @@ export default function CheckoutPage() {
         if (user) {
             getCartProducts();
         }
+        // eslint-disable-next-line
     }, [user]);
 
     function getCartProducts() {

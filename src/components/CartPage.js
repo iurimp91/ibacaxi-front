@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
@@ -10,22 +10,24 @@ export default function CartPage() {
     const { user } = useContext(UserContext);
     const [cartProducts, setCartProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState();
+    const history = useHistory();
     const localUser = JSON.parse(localStorage.getItem("user"));
-
+    let config;
+    if (user) {
+        config = { headers: { Authorization: `Bearer ${user.token}` } };
+    }
     useEffect(() => {
         if (user) {
             getCartProducts();
+            return;
+        }
+        if (!localUser) {
+            history.push("/sign-in?next=/cart");
         }
         // eslint-disable-next-line
     }, [user]);
 
     function getCartProducts() {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${localUser.token || user.token}`,
-            },
-        };
-
         const cartRequest = axios.get("http://localhost:4000/cart", config);
 
         cartRequest.then((response) => {

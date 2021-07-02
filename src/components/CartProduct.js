@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
@@ -13,11 +13,9 @@ export default function CartProduct(props) {
     const { user } = useContext(UserContext);
     const getCartProducts = props.getCartProducts;
     let config;
-    useEffect(() => {
-        if (user) {
-            config = { headers: { Authorization: `Bearer ${user.token}` } };
-        }
-    }, [user]);
+    if (user) {
+        config = { headers: { Authorization: `Bearer ${user.token}` } };
+    }
 
     function deleteFromCart() {
         const deleteRequest = axios.delete(

@@ -57,7 +57,9 @@ export default function Header({ user, setUser }) {
                             <span>
                                 Hello,
                                 <br />
-                                <strong>{user.name.split(" ")[0]}</strong>
+                                <strong>
+                                    {user && user.name.split(" ")[0]}
+                                </strong>
                             </span>
                         </>
                     ) : (

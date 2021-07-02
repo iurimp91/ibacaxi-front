@@ -9,6 +9,7 @@ import HomePage from "./HomePage/HomePage";
 import CartPage from "./CartPage.js";
 import ProductPage from "./ProductPage/ProductPage";
 import CheckoutPage from "./CheckoutPage/CheckoutPage";
+import SuccessPage from "./SuccessPage/SuccessPage";
 import Header from "./Header/Header";
 import NotFound from "./NotFound.js";
 
@@ -39,6 +40,9 @@ function App() {
                     </Route>
                     <Route exact path="/product/:id">
                         <ProductPage />
+                    </Route>
+                    <Route exact path="/success/:id">
+                        <SuccessPage />
                     </Route>
                     <Route path="/*">
                         <NotFound />
