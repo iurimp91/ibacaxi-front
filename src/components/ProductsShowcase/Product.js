@@ -3,7 +3,7 @@ import styled from "styled-components";
 import formatNumber from "../../functions/formatNumber";
 
 export default function Product({ product }) {
-    const { id, name, image, price, brief } = product;
+    const { id, name, image, price, brief, quantity } = product;
     const formatedPrice = formatNumber(price);
 
     return (
@@ -12,7 +12,14 @@ export default function Product({ product }) {
                 <img src={image} alt={name} />
                 <h3>{name}</h3>
                 <p>{brief}</p>
-                <Price>R$ {formatedPrice}</Price>
+                <Price>
+                    {
+                        quantity !== 0
+                        ? ""
+                        : <span>Out of stock!</span> 
+                    }
+                    R$ {formatedPrice}
+                </Price>
             </Link>
         </ProductBox>
     );
@@ -27,6 +34,15 @@ const ProductBox = styled.div`
     border: 1px solid black;
     overflow: hidden;
     padding: 5px;
+
+    @media (max-width: 670px) {
+        height: 400px;
+    }
+    
+    @media (max-width: 320px) {
+        height: 350px;
+    }
+
     img {
         width: 100%;
     }
@@ -39,7 +55,18 @@ const ProductBox = styled.div`
     }
 `;
 const Price = styled.div`
+    width: 96%;
     position: absolute;
     bottom: 5px;
     right: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+
+    span {
+        font-size: 15px;
+        font-weight: 700;
+        color: red;
+    }
 `;

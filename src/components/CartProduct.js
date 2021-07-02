@@ -5,6 +5,7 @@ import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import formatNumber from "../functions/formatNumber";
+import { useHistory } from "react-router-dom";
 
 export default function CartProduct(props) {
     const { id, productId, productName, image, brief, price, inventory } =
@@ -12,6 +13,7 @@ export default function CartProduct(props) {
     const [newQuantity, setNewQuantity] = useState(props.product.quantity);
     const { user } = useContext(UserContext);
     const getCartProducts = props.getCartProducts;
+    const history = useHistory()
     let config;
     if (user) {
         config = { headers: { Authorization: `Bearer ${user.token}` } };
@@ -57,9 +59,15 @@ export default function CartProduct(props) {
         <Container>
             <Toaster />
             <div className="product-info">
-                <Picture src={image} alt={brief} />
+                <Picture
+                    src={image}
+                    alt={brief}
+                    onClick={() => history.push(`/product/${productId}`)}
+                />
                 <DescriptionAndQuantity>
-                    <h1>{productName}</h1>
+                    <h1 onClick={() => history.push(`/product/${productId}`)}>
+                        {productName}
+                    </h1>
                     <form onSubmit={(e) => e.preventDefault()}>
                         <input
                             type="number"
@@ -71,13 +79,14 @@ export default function CartProduct(props) {
                     </form>
                 </DescriptionAndQuantity>
             </div>
-            <Price>R$ {formatNumber(newQuantity * price)}</Price>
+            <Price>R$<br/>{formatNumber(newQuantity * price)}</Price>
             <BsFillTrashFill className="trash-icon" onClick={deleteFromCart} />
         </Container>
     );
 }
 
 const Container = styled.li`
+    height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
@@ -87,7 +96,6 @@ const Container = styled.li`
     margin-bottom: 10px;
     padding: 10px;
     position: relative;
-    background-color: blue;
 
     .product-info {
         width: 75%;
@@ -108,11 +116,11 @@ const Picture = styled.img`
     height: 50px;
     border: 1px solid #000000;
     border-radius: 5px;
+    cursor: pointer;
 `;
 
 const DescriptionAndQuantity = styled.div`
     width: 75%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -121,18 +129,21 @@ const DescriptionAndQuantity = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    background-color: red;
 
     h1 {
         font-size: 15px;
+        cursor: pointer;
+        font-weight: 700;
     }
 
     input {
         width: 40px;
+        margin-top: 14px;
     }
 `;
 
 const Price = styled.div`
     font-size: 15px;
-    background: green;
+    line-height: 20px;
+    margin-right: 10px;
 `;

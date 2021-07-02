@@ -7,14 +7,20 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100% - 90px);
+    height: 100%;
+    padding-top: 50px;
+    
+    @media (max-width: 670px) {
+        padding-top: 100px;
+    }
+
     a {
         font-size: 15px;
         font-weight: 700;
         margin-top: 20px;
         color: #da7f8f;
 
-        @media (min-width: 470px) {
+        @media (min-width: 670px) {
             font-size: 20px;
         }
     }
@@ -56,6 +62,7 @@ export const Form = styled.form`
         opacity: ${(props) => (props.disabled ? "0.7" : "1")};
         color: #ffffff;
         font-size: 20px;
+        font-weight: 700;
 
         @media (min-width: 470px) {
             width: 430px;

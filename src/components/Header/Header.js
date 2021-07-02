@@ -42,7 +42,7 @@ export default function Header({ user, setUser }) {
     }
 
     return (
-        <SafeMargin>
+        <   >
             <Toaster />
             <TopBar>
                 <Title to={"/"}>
@@ -70,18 +70,9 @@ export default function Header({ user, setUser }) {
                     <IoCartSharp onClick={() => history.push("/cart")} />
                 </Buttons>
             </TopBar>
-        </SafeMargin>
+        </>
     );
 }
-
-const SafeMargin = styled.div`
-    height: 90px;
-    background-color: transparent;
-
-    @media (max-width: 670px) {
-        height: 140px;
-    }
-`;
 
 const TopBar = styled.div`
     background-color: #e1e5ea;
